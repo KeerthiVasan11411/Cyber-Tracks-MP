@@ -2,7 +2,7 @@
   "name": "car",
   "version": "1.0.0",
   "type": "module",
-  "main": "dist/electron.js",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
