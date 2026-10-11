@@ -2629,6 +2629,22 @@
     transform: scale(1.08);
 }
 
+
+/* ── STRICT LOBBY TOUCH CONTROL HIDING & 120 FPS OPTIMIZATION ── */
+#touch-controls {
+    display: none !important;
+}
+
+body.in-race.touch-enabled #touch-controls {
+    display: flex !important;
+}
+
+/* Ensure pause/crash card never overlaps lobby */
+#mainMenuModal:not(.hidden) ~ #pauseCrashModal,
+body:not(.in-race) #pauseCrashModal.hidden {
+    display: none !important;
+}
+
 </style>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -2941,7 +2957,7 @@
             <!-- 3. BOTTOM FOOTER TELEMETRY -->
             <footer class="lobby-footer">
                 <div class="footer-notice" id="screenText">HIGHWAY RACING • DYNAMIC WEATHER • HIGH SPEED PURSUIT</div>
-                <div class="footer-status"><span class="status-dot"></span> NEURAL LINK ACTIVE • 60 FPS</div>
+                <div class="footer-status"><span class="status-dot"></span> NEURAL LINK ACTIVE • 120 FPS ULTRA</div>
             </footer>
         </div>
 
@@ -3680,6 +3696,175 @@
         let showroomTurntableGroup = null;
         let showroomRingMesh = null;
 
+        
+        // ── DEDICATED CYBER GARAGE SHOWROOM & TRACK VISIBILITY SYSTEM ──
+        let garageGroup = null;
+        let garageStudioLight = null;
+        let garageFillLight = null;
+        let garageRimLight = null;
+
+        function setTrackVisibility(visible) {
+            if (typeof roadSegments !== 'undefined' && roadSegments) {
+                roadSegments.forEach(s => { if (s) s.visible = visible; });
+            }
+            if (typeof sideBuildings !== 'undefined' && sideBuildings) {
+                sideBuildings.forEach(b => { if (b) b.visible = visible; });
+            }
+            if (typeof roadBridges !== 'undefined' && roadBridges) {
+                roadBridges.forEach(b => { if (b) b.visible = visible; });
+            }
+            if (typeof roadTrees !== 'undefined' && roadTrees) {
+                roadTrees.forEach(t => { if (t) t.visible = visible; });
+            }
+            if (typeof streetLights !== 'undefined' && streetLights) {
+                streetLights.forEach(l => { if (l) l.visible = visible; });
+            }
+            if (typeof pedestrians !== 'undefined' && pedestrians) {
+                pedestrians.forEach(p => { if (p) p.visible = visible; });
+            }
+            if (typeof junctions !== 'undefined' && junctions) {
+                junctions.forEach(j => { if (j) j.visible = visible; });
+            }
+            if (typeof sunMesh !== 'undefined' && sunMesh) sunMesh.visible = visible;
+            if (typeof moonMesh !== 'undefined' && moonMesh) moonMesh.visible = visible;
+            if (typeof starFieldMesh !== 'undefined' && starFieldMesh) starFieldMesh.visible = visible;
+            if (typeof sunGlowMesh !== 'undefined' && sunGlowMesh) sunGlowMesh.visible = visible;
+            if (typeof sunRaysMesh !== 'undefined' && sunRaysMesh) sunRaysMesh.visible = visible;
+            if (typeof moonGlowMesh !== 'undefined' && moonGlowMesh) moonGlowMesh.visible = visible;
+        }
+
+        function createCyberGarage() {
+            if (garageGroup) {
+                scene.remove(garageGroup);
+            }
+            garageGroup = new THREE.Group();
+
+            // 1. High-Tech Reflective Carbon/Gloss Showroom Floor
+            const floorGeo = new THREE.PlaneGeometry(42, 42);
+            floorGeo.rotateX(-Math.PI / 2);
+            const floorMat = new THREE.MeshStandardMaterial({
+                color: 0x060914,
+                roughness: 0.18,
+                metalness: 0.88
+            });
+            const floor = new THREE.Mesh(floorGeo, floorMat);
+            floor.position.y = -0.01;
+            garageGroup.add(floor);
+
+            // Subtle neon floor grid perimeter
+            const gridBorderMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, transparent: true, opacity: 0.35 });
+            const gridBorder = new THREE.Mesh(new THREE.RingGeometry(9.5, 9.6, 64), gridBorderMat);
+            gridBorder.rotateX(-Math.PI / 2);
+            gridBorder.position.y = 0.005;
+            garageGroup.add(gridBorder);
+
+            // 2. High-Tech Garage Walls (Back & Side Hangar Panels)
+            const wallMat = new THREE.MeshStandardMaterial({
+                color: 0x070c1a,
+                roughness: 0.6,
+                metalness: 0.5
+            });
+
+            // Back Wall
+            const backWall = new THREE.Mesh(new THREE.PlaneGeometry(42, 14), wallMat);
+            backWall.position.set(0, 7, -18);
+            garageGroup.add(backWall);
+
+            // Left Wall
+            const leftWall = new THREE.Mesh(new THREE.PlaneGeometry(42, 14), wallMat);
+            leftWall.rotation.y = Math.PI / 2;
+            leftWall.position.set(-18, 7, 0);
+            garageGroup.add(leftWall);
+
+            // Right Wall
+            const rightWall = new THREE.Mesh(new THREE.PlaneGeometry(42, 14), wallMat);
+            rightWall.rotation.y = -Math.PI / 2;
+            rightWall.position.set(18, 7, 0);
+            garageGroup.add(rightWall);
+
+            // Garage Ceiling
+            const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(42, 42), new THREE.MeshBasicMaterial({ color: 0x030610 }));
+            ceiling.rotation.x = Math.PI / 2;
+            ceiling.position.y = 14;
+            garageGroup.add(ceiling);
+
+            // 3. Neon LED Architectural Lighting
+            const neonCyanMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+            const neonAmberMat = new THREE.MeshBasicMaterial({ color: 0xff3366 });
+
+            // Back wall horizontal neon strips
+            const ledBack1 = new THREE.Mesh(new THREE.BoxGeometry(36, 0.12, 0.08), neonCyanMat);
+            ledBack1.position.set(0, 2.6, -17.9);
+            garageGroup.add(ledBack1);
+
+            const ledBack2 = new THREE.Mesh(new THREE.BoxGeometry(26, 0.08, 0.08), neonAmberMat);
+            ledBack2.position.set(0, 8.5, -17.9);
+            garageGroup.add(ledBack2);
+
+            // Vertical neon light pillars
+            [-12, -6, 6, 12].forEach(x => {
+                const pillarStrip = new THREE.Mesh(new THREE.BoxGeometry(0.14, 10, 0.08), neonCyanMat);
+                pillarStrip.position.set(x, 5, -17.85);
+                garageGroup.add(pillarStrip);
+            });
+
+            // 4. Overhead Studio Softbox Light Frame
+            const softboxLightMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            const softbox = new THREE.Mesh(new THREE.BoxGeometry(8, 0.1, 14), softboxLightMat);
+            softbox.position.set(0, 11.8, 0);
+            garageGroup.add(softbox);
+
+            const sbBorder = new THREE.Mesh(new THREE.BoxGeometry(8.4, 0.18, 14.4), new THREE.MeshBasicMaterial({ color: 0x00f0ff }));
+            sbBorder.position.set(0, 11.9, 0);
+            garageGroup.add(sbBorder);
+
+            // 5. Studio Showroom Lights
+            garageStudioLight = new THREE.SpotLight(0xffffff, 2.6, 35, Math.PI / 3.4, 0.45, 1.2);
+            garageStudioLight.position.set(0, 11, 2);
+            garageStudioLight.target.position.set(0, 0.4, 0);
+            garageGroup.add(garageStudioLight);
+            garageGroup.add(garageStudioLight.target);
+
+            garageFillLight = new THREE.PointLight(0x00f0ff, 1.4, 25);
+            garageFillLight.position.set(-6, 3.5, 4);
+            garageGroup.add(garageFillLight);
+
+            garageRimLight = new THREE.PointLight(0xff0055, 1.2, 22);
+            garageRimLight.position.set(6, 3, -6);
+            garageGroup.add(garageRimLight);
+
+            scene.add(garageGroup);
+        }
+
+        function enterGarageShowroomMode() {
+            setTrackVisibility(false);
+            if (garageGroup) garageGroup.visible = true;
+            if (showroomTurntableGroup) showroomTurntableGroup.visible = true;
+            if (scene) {
+                scene.background = new THREE.Color(0x030612);
+                scene.fog = new THREE.Fog(0x030612, 24, 75);
+            }
+            document.body.classList.remove('in-race');
+            const touchControls = document.getElementById('touch-controls');
+            if (touchControls) touchControls.classList.add('hidden');
+        }
+
+        function exitGarageToRaceMode() {
+            if (garageGroup) garageGroup.visible = false;
+            if (showroomTurntableGroup) showroomTurntableGroup.visible = false;
+            setTrackVisibility(true);
+            document.body.classList.add('in-race');
+            const toggleTouch = document.getElementById('toggleTouch');
+            const touchControls = document.getElementById('touch-controls');
+            if (toggleTouch && toggleTouch.checked && touchControls) {
+                document.body.classList.add('touch-enabled');
+                touchControls.classList.remove('hidden');
+            } else {
+                document.body.classList.remove('touch-enabled');
+                if (touchControls) touchControls.classList.add('hidden');
+            }
+        }
+
         function createShowroomTurntable() {
             if (showroomTurntableGroup) {
                 scene.remove(showroomTurntableGroup);
@@ -3942,8 +4127,9 @@
             const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || (window.innerWidth < 768);
             renderer = new THREE.WebGLRenderer({ antialias: !isMobileDevice, alpha: false, powerPreference: "high-performance" });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(isMobileDevice ? Math.min(window.devicePixelRatio, 1.25) : Math.min(window.devicePixelRatio, 1.5));
-            renderer.shadowMap.enabled = !isMobileDevice || window.innerWidth > 800;
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25)); // Locked for locked 120 FPS performance
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.BasicShadowMap; // Ultra fast 120 FPS shadow map
             renderer.shadowMap.type = THREE.PCFShadowMap;
             renderer.toneMapping = THREE.ACESFilmicToneMapping;
             renderer.toneMappingExposure = 1.2;
@@ -3981,7 +4167,9 @@
             playerCustomColor = 0x00f0ff;
             selectedVehicleType = 'car';
             spawnSelectedPlayerVehicle(0x00f0ff);
+            createCyberGarage();
             createShowroomTurntable();
+            enterGarageShowroomMode();
             setupShowroomControls();
 
             playerBox = new THREE.Box3();
@@ -4115,7 +4303,7 @@
                 const vy = Math.cos(phi) * speed + (isFireball ? 4 : 2);
                 const vz = Math.sin(phi) * Math.sin(theta) * speed;
 
-                mesh.castShadow = true;
+                // mesh.castShadow = false;
                 scene.add(mesh);
 
                 crashParticles.push({
@@ -4279,6 +4467,7 @@
             mainMenuModal.classList.add('hidden');
             if (pauseCrashModal) {
                 pauseCrashModal.classList.remove('hidden');
+                pauseCrashModal.style.display = 'flex';
                 pauseCrashModal.classList.add('crashed');
                 if (pauseCrashTitle) pauseCrashTitle.innerText = "CRASH IMPACT DETECTED";
                 const statTime = document.getElementById('crashStatTime');
@@ -5510,7 +5699,7 @@
             // Main body
             const body = new THREE.Mesh(new THREE.BoxGeometry(2.62, 2.60, 7.55), busMat);
             body.position.set(0, 1.62, 0);
-            body.castShadow = true;
+            if (typeof isTraffic !== "undefined" || thisIsVehicle) body.castShadow = true;
             group.add(body);
 
             // Flat roof
@@ -5649,7 +5838,7 @@
             // ── Main body (tall off-road profile) ───────────────────────
             const body = new THREE.Mesh(new THREE.BoxGeometry(1.95, 1.38, 3.85), bodyMat);
             body.position.set(0, 0.98, 0);
-            body.castShadow = true;
+            if (typeof isTraffic !== "undefined" || thisIsVehicle) body.castShadow = true;
             group.add(body);
 
             // Front fender flares
@@ -6368,7 +6557,7 @@
                 const geo = new THREE.ExtrudeGeometry(shape, { depth: curbHeight, bevelEnabled: false });
                 geo.rotateX(-Math.PI / 2);
                 const mesh = new THREE.Mesh(geo, curbMat);
-                mesh.castShadow = true;
+                // mesh.castShadow = false;
                 mesh.receiveShadow = true;
                 segmentGroup.add(mesh);
             });
@@ -6479,7 +6668,7 @@
                         curbMat
                     );
                     mainCurb.position.set(side * (roadWidth / 2 + curbDepth / 2), curbHeight / 2, -30);
-                    mainCurb.castShadow = true;
+                    // mainCurb.castShadow = false;
                     mainCurb.receiveShadow = true;
                     segmentGroup.add(mainCurb);
 
@@ -6493,7 +6682,7 @@
                             curbMat
                         );
                         crossCurb.position.set(side * 30, curbHeight / 2, crossSide * (roadWidth / 2 + curbDepth / 2));
-                        crossCurb.castShadow = true;
+                        // crossCurb.castShadow = false;
                         crossCurb.receiveShadow = true;
                         segmentGroup.add(crossCurb);
                     });
@@ -6505,7 +6694,7 @@
                         curbMat
                     );
                     curb.position.set(side * (roadWidth / 2 + curbDepth / 2), curbHeight / 2, 0);
-                    curb.castShadow = true;
+                    // curb.castShadow = false;
                     curb.receiveShadow = true;
                     segmentGroup.add(curb);
                 });
@@ -6532,30 +6721,7 @@
             const grassBladeMat2 = new THREE.MeshStandardMaterial({ color: 0x43a047, roughness: 0.95 });
             const flowerPetalMat = new THREE.MeshBasicMaterial({ color: 0xffd23f });
 
-            // 3D Retroreflective Road Studs ("Cats' Eyes") — reduced density for performance
-            // White studs along the 2 dashed lane dividers (-2.5 and +2.5)
-            [-2.5, 2.5].forEach(x => {
-                for (let z = -segmentLength / 2 + 5; z < segmentLength / 2; z += 24) {
-                    const stud = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.04, 0.22), studMat);
-                    stud.position.set(x, 0.05, z);
-                    segmentGroup.add(stud);
-                }
-            });
-
-            // Amber studs along left yellow edge line (-7.25)
-            for (let z = -segmentLength / 2 + 5; z < segmentLength / 2; z += 24) {
-                const stud = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.04, 0.22), studMat);
-                stud.position.set(-7.25, 0.05, z);
-                segmentGroup.add(stud);
-            }
-
-            // Red studs along right white edge line (+7.25)
-            for (let z = -segmentLength / 2 + 5; z < segmentLength / 2; z += 24) {
-                const stud = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.04, 0.22), studMat);
-                stud.position.set(7.25, 0.05, z);
-                segmentGroup.add(stud);
-            }
-
+            // Road studs removed for clean track & 120 FPS performance
             // Clean storm drain grates embedded in asphalt shoulder
             [-1, 1].forEach(side => {
                 const drain = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.03, 1.45), drainMat);
@@ -6678,7 +6844,7 @@
                 // Continuous corrugated W-beam guardrail
                 const rail = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.38, segmentLength), guardrailMat);
                 rail.position.set(side, 0.55, 0);
-                rail.castShadow = true;
+                // rail.castShadow = false;
                 segmentGroup.add(rail);
 
                 // Lower rub rail
@@ -6690,7 +6856,7 @@
                 for (let pz = -segmentLength / 2 + 2.5; pz < segmentLength / 2; pz += 5.0) {
                     const post = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.70, 0.12), darkPostMat);
                     post.position.set(side + (side > 0 ? 0.08 : -0.08), 0.35, pz);
-                    post.castShadow = true;
+                    // post.castShadow = false;
 
                     const tab = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.10, 0.08), side < 0 ? amberRefMat : redRefMat);
                     tab.position.set(side + (side > 0 ? -0.05 : 0.05), 0.55, pz);
@@ -6877,7 +7043,7 @@
             [-12.8, 12.8].forEach(px => {
                 const pier = new THREE.Mesh(new THREE.BoxGeometry(2.6, deckY + 0.2, 8.4), concreteMat);
                 pier.position.set(px, (deckY + 0.2) / 2, 0);
-                pier.castShadow = true;
+                // pier.castShadow = false;
                 pier.receiveShadow = true;
 
                 // Heavy impact deflection crash barrier at ground level
@@ -6911,7 +7077,7 @@
             // 3. Bridge Road Deck
             const deck = new THREE.Mesh(new THREE.BoxGeometry(deckLength, deckThickness, deckWidth), concreteMat);
             deck.position.set(0, deckY, 0);
-            deck.castShadow = true;
+            // deck.castShadow = false;
             deck.receiveShadow = true;
             bridgeGroup.add(deck);
 
@@ -6940,13 +7106,13 @@
             [-2.8, -0.9, 0.9, 2.8].forEach(gz => {
                 const girder = new THREE.Mesh(new THREE.BoxGeometry(deckLength, 0.9, 0.35), steelMat);
                 girder.position.set(0, deckY - 0.75, gz);
-                girder.castShadow = true;
+                // girder.castShadow = false;
                 bridgeGroup.add(girder);
             });
             for (let x = -20; x <= 20; x += 4) {
                 const crossBeam = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.8, deckWidth), steelMat);
                 crossBeam.position.set(x, deckY - 0.75, 0);
-                crossBeam.castShadow = true;
+                // crossBeam.castShadow = false;
                 bridgeGroup.add(crossBeam);
             }
 
@@ -6964,7 +7130,7 @@
                 const archCurve = new THREE.CatmullRomCurve3(archPts);
                 const archGeo = new THREE.TubeGeometry(archCurve, 36, 0.42, 12, false);
                 const archMesh = new THREE.Mesh(archGeo, steelMat);
-                archMesh.castShadow = true;
+                // archMesh.castShadow = false;
                 bridgeGroup.add(archMesh);
 
                 // Vertical steel suspension hanger cables
@@ -7157,7 +7323,7 @@
             // Torso (Holstein black & white spotted)
             const body = new THREE.Mesh(new THREE.BoxGeometry(1.35, 1.15, 2.20), whiteMat);
             body.position.y = 1.30;
-            body.castShadow = true;
+            if (typeof isTraffic !== "undefined" || thisIsVehicle) body.castShadow = true;
             cow.add(body);
 
             // Random black patches on torso
@@ -7335,7 +7501,7 @@
             // Muscular torso
             const body = new THREE.Mesh(new THREE.BoxGeometry(1.25, 1.15, 2.35), coatMat);
             body.position.y = 1.62;
-            body.castShadow = true;
+            if (typeof isTraffic !== "undefined" || thisIsVehicle) body.castShadow = true;
             horse.add(body);
 
             // Hindquarters curve
@@ -7540,7 +7706,7 @@
             const bWidth = 14, bHeight = 9, bDepth = 18;
             const barnWalls = new THREE.Mesh(new THREE.BoxGeometry(bWidth, bHeight, bDepth), barnRedMat);
             barnWalls.position.set(0, bHeight / 2, 0);
-            barnWalls.castShadow = true;
+            // barnWalls.castShadow = false;
             barnGroup.add(barnWalls);
 
             // Barn White Trim & Sliding Cross-braced Doors
@@ -7563,7 +7729,7 @@
             const siloGroup = new THREE.Group();
             const siloCyl = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.4, 14, 20), siloMat);
             siloCyl.position.y = 7;
-            siloCyl.castShadow = true;
+            // siloCyl.castShadow = false;
             const siloDome = new THREE.Mesh(new THREE.SphereGeometry(2.4, 20, 12, 0, Math.PI * 2, 0, Math.PI / 2), siloMat);
             siloDome.position.y = 14;
             siloGroup.add(siloCyl, siloDome);
@@ -7660,7 +7826,7 @@
             // Main school academy building
             const mainWing = new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), brickMat);
             mainWing.position.y = height / 2;
-            mainWing.castShadow = true;
+            // mainWing.castShadow = false;
             group.add(mainWing);
 
             // Pitched Academy Roof
@@ -7731,7 +7897,7 @@
             // Main Modern Hospital Complex (Tiered multi-wing)
             const mainTower = new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), whiteMat);
             mainTower.position.y = height / 2;
-            mainTower.castShadow = true;
+            // mainTower.castShadow = false;
             group.add(mainTower);
 
             // Cyan architectural accent bands
@@ -7805,7 +7971,7 @@
             // Main residential tower
             const tower = new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), concreteMat);
             tower.position.y = height / 2;
-            tower.castShadow = true;
+            // tower.castShadow = false;
             group.add(tower);
 
             // Recessed Balconies & Glass Balustrades on every floor
@@ -7904,7 +8070,7 @@
 
             const building = new THREE.Mesh(bGeo, bMat);
             building.position.y = height / 2;
-            building.castShadow = true;
+            // building.castShadow = false;
             building.receiveShadow = true;
             group.add(building);
             group.userData.sceneryBounds = { xRadius: width / 2, zRadius: depth / 2 };
@@ -8869,7 +9035,7 @@
             }
 
             currentSpeed = baseSpeed;
-            if (showroomTurntableGroup) showroomTurntableGroup.visible = false;
+            exitGarageToRaceMode();
             isGameRunning = true;
             isPaused = false;
 
@@ -8938,7 +9104,11 @@
             targetShowroomDistance = 6.4;
             isTurntableActive = true;
 
-            if (pauseCrashModal) pauseCrashModal.classList.add('hidden');
+            if (pauseCrashModal) {
+                pauseCrashModal.classList.add('hidden');
+                pauseCrashModal.style.display = 'none';
+            }
+            enterGarageShowroomMode();
             settingsModal.classList.add('hidden');
             mainMenuModal.classList.remove('hidden');
             screenOverlay.classList.remove('hidden');
