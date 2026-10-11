@@ -3556,10 +3556,11 @@
             camera.position.set(0, 3.8, 8.5);
             camera.rotation.set(-0.22, 0, 0);
 
+            const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             const isLowEndDevice = (
                 (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
                 (navigator.deviceMemory && navigator.deviceMemory <= 4) ||
-                /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                isMobileDevice ||
                 (window.innerWidth < 800)
             );
             const savedPerf = localStorage.getItem('cyber_perf_mode');
