@@ -1,0 +1,8 @@
+{
+  "appId": "com.cyber.highwayracer",
+  "appName": "Cyber 3D Highway Racer",
+  "webDir": "public",
+  "server": {
+    "androidScheme": "https"
+  }
+}
