@@ -2236,416 +2236,7 @@
                 text-shadow: 0 0 8px rgba(0, 240, 255, 0.50);
                 min-height: 16px;
             }
-    
-/* ═══════════════════════════════════════════════════════════════════
-   CYBER BOOT LOADING SCREEN & NEXT-GEN SHOWROOM LOBBY STYLES
-   ═══════════════════════════════════════════════════════════════════ */
-
-/* ── CYBER BOOT LOADING SCREEN ───────────────────────────── */
-.cyber-boot-screen {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: radial-gradient(ellipse at 50% 45%, #05102a 0%, #02040c 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s ease;
-    pointer-events: auto;
-}
-
-.cyber-boot-screen.fade-out {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.boot-matrix-bg {
-    position: absolute;
-    inset: 0;
-    background-image: 
-        linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
-    background-size: 36px 36px;
-    animation: gridMove 16s linear infinite;
-    pointer-events: none;
-}
-
-.boot-scanline {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, transparent 0%, rgba(0, 240, 255, 0.12) 50%, transparent 100%);
-    height: 120px;
-    animation: scanMove 3.2s linear infinite;
-    pointer-events: none;
-}
-
-@keyframes scanMove {
-    0% { transform: translateY(-120px); }
-    100% { transform: translateY(100vh); }
-}
-
-.boot-panel {
-    position: relative;
-    z-index: 2;
-    max-width: 480px;
-    width: 90%;
-    background: rgba(4, 8, 24, 0.90);
-    border: 1.5px solid rgba(0, 240, 255, 0.45);
-    border-radius: 20px;
-    padding: 34px 30px;
-    box-shadow: 0 0 60px rgba(0, 240, 255, 0.22), inset 0 0 35px rgba(0, 240, 255, 0.06);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-.boot-logo-wrap {
-    position: relative;
-    width: 76px;
-    height: 76px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 12px;
-}
-
-.boot-logo-ring {
-    position: absolute;
-    inset: 0;
-    border: 2px dashed rgba(0, 240, 255, 0.6);
-    border-radius: 50%;
-    animation: spin 10s linear infinite;
-}
-
-.boot-logo-icon {
-    font-size: 34px;
-    filter: drop-shadow(0 0 14px var(--cyan));
-    animation: pulse 1.8s ease-in-out infinite;
-}
-
-.boot-kicker {
-    font-family: var(--font-r);
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: var(--cyan);
-    text-transform: uppercase;
-    margin-bottom: 6px;
-}
-
-.boot-title {
-    font-family: var(--font-r);
-    font-size: 26px;
-    font-weight: 900;
-    letter-spacing: 4px;
-    background: linear-gradient(135deg, #00f0ff 0%, #ffffff 50%, #ff0055 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 16px rgba(0, 240, 255, 0.6));
-    margin-bottom: 18px;
-}
-
-.boot-console {
-    width: 100%;
-    background: rgba(1, 3, 12, 0.85);
-    border: 1px solid rgba(0, 240, 255, 0.2);
-    border-radius: 10px;
-    padding: 12px 14px;
-    margin-bottom: 20px;
-    text-align: left;
-    font-family: 'Courier New', monospace;
-    font-size: 10.5px;
-    color: #8fa7c4;
-    line-height: 1.6;
-}
-
-.boot-line {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.boot-ok {
-    color: var(--green);
-    font-weight: 800;
-    text-shadow: 0 0 8px var(--green);
-}
-
-.boot-pulse {
-    color: var(--yellow);
-    animation: pulse 1s infinite;
-}
-
-.boot-progress-wrap {
-    width: 100%;
-    margin-bottom: 14px;
-}
-
-.boot-progress-track {
-    width: 100%;
-    height: 8px;
-    background: rgba(0, 240, 255, 0.12);
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid rgba(0, 240, 255, 0.3);
-    position: relative;
-}
-
-.boot-progress-bar {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #00f0ff, #00ff88);
-    box-shadow: 0 0 16px var(--cyan);
-    border-radius: 8px;
-    transition: width 0.12s linear;
-}
-
-.boot-progress-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 8px;
-    font-family: var(--font-r);
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    color: #92b0d0;
-}
-
-.boot-pct {
-    color: var(--cyan);
-    font-weight: 800;
-}
-
-/* ── INTERACTIVE SHOWROOM ADDITIONS ───────────────────────── */
-.lobby-hud-layout.cinematic-mode .lobby-deck {
-    transform: translateY(35px) scale(0.96);
-    opacity: 0;
-    pointer-events: none;
-}
-
-.lobby-hud-layout.cinematic-mode .showroom-hint-badge {
-    opacity: 1;
-    transform: translate(-50%, 0);
-}
-
-.pilot-edit-btn {
-    background: none;
-    border: none;
-    color: var(--cyan);
-    font-size: 12px;
-    cursor: pointer;
-    padding: 2px 4px;
-    border-radius: 4px;
-    transition: all 0.2s;
-}
-
-.pilot-edit-btn:hover {
-    background: rgba(0, 240, 255, 0.2);
-    transform: scale(1.15);
-}
-
-.showroom-cam-btn {
-    background: rgba(0, 240, 255, 0.12) !important;
-    border-color: rgba(0, 240, 255, 0.45) !important;
-}
-
-.rev-test-btn {
-    background: linear-gradient(135deg, rgba(255, 120, 0, 0.15), rgba(4, 8, 20, 0.9));
-    border: 1px solid rgba(255, 120, 0, 0.45);
-    color: #ff9922;
-    font-family: var(--font-r);
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    padding: 8px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.22s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    box-shadow: 0 0 12px rgba(255, 120, 0, 0.18);
-}
-
-.rev-test-btn:hover {
-    background: linear-gradient(135deg, rgba(255, 120, 0, 0.3), rgba(4, 8, 20, 0.95));
-    border-color: #ff8800;
-    box-shadow: 0 0 20px rgba(255, 120, 0, 0.45);
-    transform: translateY(-1px);
-}
-
-.rev-test-btn.revving {
-    animation: revThrob 0.35s ease infinite alternate;
-    border-color: #ff0055;
-    color: #ff3377;
-}
-
-@keyframes revThrob {
-    0% { transform: scale(1); filter: brightness(1); }
-    100% { transform: scale(1.04); filter: brightness(1.4); }
-}
-
-.turntable-toggle-btn {
-    background: rgba(0, 240, 255, 0.08);
-    border: 1px solid rgba(0, 240, 255, 0.25);
-    color: var(--cyan);
-    font-family: var(--font-r);
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: center;
-}
-
-.turntable-toggle-btn:hover {
-    background: rgba(0, 240, 255, 0.18);
-    border-color: #00f0ff;
-}
-
-.showroom-hint-badge {
-    position: absolute;
-    bottom: 24px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    background: rgba(2, 6, 18, 0.85);
-    border: 1px solid rgba(0, 240, 255, 0.35);
-    border-radius: 20px;
-    padding: 6px 18px;
-    font-family: var(--font-r);
-    font-size: 9.5px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: var(--cyan);
-    pointer-events: none;
-    box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-    z-index: 3;
-}
-
-/* ── CRASH TELEMETRY OVERLAY STYLES ───────────────────────── */
-.crash-hazard-strip {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 6px;
-    background: repeating-linear-gradient(45deg, #ff0055, #ff0055 12px, #030614 12px, #030614 24px);
-}
-
-.pause-crash-title {
-    font-family: var(--font-r);
-    font-size: 22px;
-    font-weight: 900;
-    color: var(--cyan);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-top: 4px;
-}
-
-.pause-crash-card.crashed .pause-crash-title {
-    color: var(--red);
-    text-shadow: 0 0 16px rgba(255, 0, 85, 0.6);
-}
-
-.pause-crash-subtitle {
-    font-family: var(--font-ui);
-    font-size: 11px;
-    color: #8fa7c4;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-}
-
-.crash-telemetry-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    width: 100%;
-    margin: 4px 0;
-}
-
-.c-stat-box {
-    background: rgba(6, 12, 30, 0.85);
-    border: 1px solid rgba(0, 240, 255, 0.22);
-    border-radius: 10px;
-    padding: 9px 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-}
-
-.pause-crash-card.crashed .c-stat-box {
-    border-color: rgba(255, 0, 85, 0.25);
-}
-
-.c-stat-label {
-    font-family: var(--font-r);
-    font-size: 8px;
-    letter-spacing: 1.5px;
-    color: #6282a5;
-}
-
-.c-stat-val {
-    font-family: var(--font-r);
-    font-size: 15px;
-    font-weight: 900;
-    color: #ffffff;
-    letter-spacing: 1.5px;
-}
-
-/* Quick pilot callsign badges */
-.callsign-suggestions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-.callsign-tag {
-    background: rgba(0, 240, 255, 0.08);
-    border: 1px solid rgba(0, 240, 255, 0.3);
-    color: var(--cyan);
-    font-family: var(--font-r);
-    font-size: 9px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.callsign-tag:hover {
-    background: rgba(0, 240, 255, 0.25);
-    border-color: #00f0ff;
-    transform: scale(1.08);
-}
-
-
-/* ── STRICT LOBBY TOUCH CONTROL HIDING & 120 FPS OPTIMIZATION ── */
-#touch-controls {
-    display: none !important;
-}
-
-body.in-race.touch-enabled #touch-controls {
-    display: flex !important;
-}
-
-/* Ensure pause/crash card never overlaps lobby */
-#mainMenuModal:not(.hidden) ~ #pauseCrashModal,
-body:not(.in-race) #pauseCrashModal.hidden {
-    display: none !important;
-}
-
-</style>
+    </style>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <!-- PeerJS SDK for Multiplayer (Fast WebRTC, No Setup) -->
@@ -2735,37 +2326,6 @@ body:not(.in-race) #pauseCrashModal.hidden {
 
     <!-- Screen Overlay / Menus -->
     <div id="screen-overlay">
-        <!-- ── CYBER BOOT LOADING SCREEN ───────────────────────────── -->
-        <div id="cyberBootModal" class="cyber-boot-screen">
-            <div class="boot-matrix-bg"></div>
-            <div class="boot-scanline"></div>
-            <div class="boot-panel">
-                <div class="boot-logo-wrap">
-                    <div class="boot-logo-ring"></div>
-                    <div class="boot-logo-icon">🏎️</div>
-                </div>
-                <div class="boot-kicker">NEURAL LINK RACING PROTOCOL v4.8</div>
-                <h1 class="boot-title">CYBER RACER 3D</h1>
-                
-                <div class="boot-console" id="bootConsole">
-                    <div class="boot-line"><span>[SYS] INITIALIZING QUANTUM DRIVETRAIN...</span> <span class="boot-ok">OK</span></div>
-                    <div class="boot-line"><span>[NET] SYNCHRONIZING REALTIME HIGHWAY ASSETS...</span> <span class="boot-ok">OK</span></div>
-                    <div class="boot-line"><span>[CAL] CALIBRATING AERO DYNAMICS & DOWNFORCE...</span> <span class="boot-ok">OK</span></div>
-                    <div class="boot-line"><span>[PILOT] SYNCING NEURAL TELEMETRY LINK...</span> <span class="boot-pulse" id="bootLiveStep">ARMED</span></div>
-                </div>
-
-                <div class="boot-progress-wrap">
-                    <div class="boot-progress-track">
-                        <div class="boot-progress-bar" id="bootProgressBar"></div>
-                    </div>
-                    <div class="boot-progress-meta">
-                        <span class="boot-status-label" id="bootStatusText">CALIBRATING QUANTUM SENSORS...</span>
-                        <span class="boot-pct" id="bootPctText">0%</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- ── LOBBY COCKPIT INTERFACE ────────────────────────────── -->
         <div id="mainMenuModal" class="lobby-hud-layout">
             <!-- 1. TOP HEADER HUD BAR -->
@@ -2786,9 +2346,8 @@ body:not(.in-race) #pauseCrashModal.hidden {
                 <div class="lobby-quick-actions">
                     <div class="pilot-badge">
                         <span class="pilot-label">PILOT LINK</span>
-                        <span class="pilot-callsign" id="pilot-callsign">CYBER-01</span> <button class="pilot-edit-btn" id="editPilotNameBtn" title="Edit Callsign">✎</button>
+                        <span class="pilot-callsign" id="pilot-callsign">CYBER-01</span>
                     </div>
-                    <button class="lobby-icon-btn showroom-cam-btn" id="lobbyToggleViewBtn" title="Toggle 3D Showroom Camera">👁️ SHOWROOM</button>
                     <button class="lobby-icon-btn" id="menuSettingsBtn" title="Settings">⚙</button>
                     <button class="lobby-icon-btn" id="fullscreenBtn" title="Toggle Fullscreen">⛶</button>
                 </div>
@@ -2880,15 +2439,6 @@ body:not(.in-race) #pauseCrashModal.hidden {
                             stability.
                         </div>
                     </div>
-                
-                    <!-- Interactive Engine Rev & Showroom Controls -->
-                    <button class="rev-test-btn" id="revTestBtn" type="button" title="Test Throttle & Exhaust Sound">
-                        <span>⚡</span> TEST ENGINE REV
-                    </button>
-                    <button class="turntable-toggle-btn" id="turntableToggleBtn" type="button">
-                        🔄 3D AUTO ORBIT: ON
-                    </button>
-
                 </aside>
 
                 <!-- RIGHT DECK: MISSION DEPLOYMENT & MODES -->
@@ -2952,54 +2502,32 @@ body:not(.in-race) #pauseCrashModal.hidden {
                 </aside>
             </div>
 
-            <div class="showroom-hint-badge" id="showroomHintBadge"><span>👆 DRAG TO ROTATE VEHICLE IN 3D</span></div>
-
             <!-- 3. BOTTOM FOOTER TELEMETRY -->
             <footer class="lobby-footer">
                 <div class="footer-notice" id="screenText">HIGHWAY RACING • DYNAMIC WEATHER • HIGH SPEED PURSUIT</div>
-                <div class="footer-status"><span class="status-dot"></span> NEURAL LINK ACTIVE • 120 FPS ULTRA</div>
+                <div class="footer-status"><span class="status-dot"></span> NEURAL LINK ACTIVE • 60 FPS</div>
             </footer>
         </div>
 
         <!-- 4. DEDICATED PAUSE & CRASH MODAL -->
-        <!-- 4. DEDICATED PAUSE & CRASH MODAL -->
         <div id="pauseCrashModal" class="pause-crash-card hidden">
-            <div class="crash-hazard-strip"></div>
-            <h2 id="pauseCrashTitle" class="pause-crash-title">SYSTEM PAUSED</h2>
-            <div id="pauseCrashSubtitle" class="pause-crash-subtitle">Telemetry & Physics On Standby</div>
-            
-            <div class="crash-telemetry-grid" id="crashTelemetryGrid">
-                <div class="c-stat-box">
-                    <span class="c-stat-label">TIME SURVIVED</span>
-                    <span class="c-stat-val" id="crashStatTime">0s</span>
-                </div>
-                <div class="c-stat-box">
-                    <span class="c-stat-label">FINAL SCORE</span>
-                    <span class="c-stat-val" id="crashStatScore">0</span>
-                </div>
-                <div class="c-stat-box">
-                    <span class="c-stat-label">PEAK SPEED</span>
-                    <span class="c-stat-val" id="crashStatSpeed">280 KM/H</span>
-                </div>
-                <div class="c-stat-box">
-                    <span class="c-stat-label">STATUS</span>
-                    <span class="c-stat-val" id="crashStatStatus" style="color:var(--red);">WRECKED</span>
-                </div>
-            </div>
-
-            <div id="pauseCrashText" style="display:none;"></div>
-
-            <div class="btn-group" style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:8px; width:100%;">
-                <button class="action-btn" id="pauseResumeBtn" style="min-width:170px; flex:1;">RESUME RACE</button>
-                <button class="action-btn secondary" id="pauseQuitBtn" style="min-width:170px; flex:1; background:linear-gradient(135deg,#ff0055 0%,#aa0022 100%); border-color:var(--red);">RETURN TO SHOWROOM</button>
-            </div>
-            <div style="display:flex; gap:10px; width:100%; justify-content:center; margin-top:4px;">
-                <button class="action-btn secondary small" id="leaderboardBtn" style="border-color: #ffd700; color: #ffd700; font-size:10px; padding:8px 16px;">LEADERBOARD</button>
-                <button class="action-btn secondary small" id="pauseSettingsBtn" style="font-size:10px; padding:8px 16px;">SETTINGS</button>
+            <h2 id="pauseCrashTitle"
+                style="font-family:var(--font-r); font-size:26px; color:var(--cyan); letter-spacing:3px; text-transform:uppercase;">
+                SYSTEM PAUSED</h2>
+            <div id="pauseCrashText"
+                style="font-family:var(--font-ui); font-size:13px; color:#8fa7c4; line-height:1.6;">Telemetry and
+                physics on standby.</div>
+            <div class="btn-group"
+                style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:8px;">
+                <button class="action-btn" id="pauseResumeBtn" style="min-width:160px;">RESUME RACE</button>
+                <button class="action-btn secondary" id="leaderboardBtn"
+                    style="border-color: #ffd700; color: #ffd700;">LEADERBOARD</button>
+                <button class="action-btn secondary" id="pauseSettingsBtn">SETTINGS</button>
+                <button class="action-btn secondary" id="pauseQuitBtn"
+                    style="background:linear-gradient(135deg,#ff0055 0%,#aa0022 100%); border-color:var(--red);">MAIN
+                    LOBBY</button>
             </div>
         </div>
-
-        
 
         <div class="modal-content hidden" id="settingsModal">
             <div class="title-container">
@@ -3080,14 +2608,6 @@ body:not(.in-race) #pauseCrashModal.hidden {
             </div>
             <input id="pilot-name-input" type="text" maxlength="16" autocomplete="nickname"
                 placeholder="ENTER CALLSIGN">
-            
-            <div class="callsign-suggestions">
-                <span class="callsign-tag" data-tag="CYBER-01">CYBER-01</span>
-                <span class="callsign-tag" data-tag="NEO-VIPER">NEO-VIPER</span>
-                <span class="callsign-tag" data-tag="PHANTOM-9">PHANTOM-9</span>
-                <span class="callsign-tag" data-tag="CHRONO">CHRONO</span>
-            </div>
-
             <div id="pilot-name-error"
                 style="min-height:18px; margin-top:8px; color:#ff3366; font-size:11px; text-align:center;"></div>
             <button class="action-btn" id="pilot-name-confirm">ENTER GARAGE</button>
@@ -3564,7 +3084,6 @@ body:not(.in-race) #pauseCrashModal.hidden {
         function toggleFirstPersonView() {
             isFirstPersonView = !isFirstPersonView;
             updateFirstPersonVehicleVisibility();
-            if (typeof updateShowroomPedestalColor === "function") updateShowroomPedestalColor(activeColor);
             const btn = document.getElementById('fpvToggleBtn');
             const icon = document.getElementById('fpvIcon');
             const label = document.getElementById('fpvLabel');
@@ -3680,441 +3199,6 @@ body:not(.in-race) #pauseCrashModal.hidden {
         const junctionLineOffset = 22;
         const vehicleStopCenterOffset = junctionLineOffset + vehicleLength / 2;
 
-        
-        // ── CYBER BOOT SEQUENCE & SHOWROOM TURNTABLE SYSTEM ──
-        let isBootSequenceActive = true;
-        let isTurntableActive = true;
-        let showroomAngle = 0.8;
-        let showroomElevation = 1.7;
-        let showroomDistance = 6.4;
-        let targetShowroomAngle = 0.8;
-        let targetShowroomElevation = 1.7;
-        let targetShowroomDistance = 6.4;
-        let isShowroomDragging = false;
-        let showroomLastPointerX = 0;
-        let showroomLastPointerY = 0;
-        let showroomTurntableGroup = null;
-        let showroomRingMesh = null;
-
-        
-        // ── DEDICATED CYBER GARAGE SHOWROOM & TRACK VISIBILITY SYSTEM ──
-        let garageGroup = null;
-        let garageStudioLight = null;
-        let garageFillLight = null;
-        let garageRimLight = null;
-
-        function setTrackVisibility(visible) {
-            if (typeof roadSegments !== 'undefined' && roadSegments) {
-                roadSegments.forEach(s => { if (s) s.visible = visible; });
-            }
-            if (typeof sideBuildings !== 'undefined' && sideBuildings) {
-                sideBuildings.forEach(b => { if (b) b.visible = visible; });
-            }
-            if (typeof roadBridges !== 'undefined' && roadBridges) {
-                roadBridges.forEach(b => { if (b) b.visible = visible; });
-            }
-            if (typeof roadTrees !== 'undefined' && roadTrees) {
-                roadTrees.forEach(t => { if (t) t.visible = visible; });
-            }
-            if (typeof streetLights !== 'undefined' && streetLights) {
-                streetLights.forEach(l => { if (l) l.visible = visible; });
-            }
-            if (typeof pedestrians !== 'undefined' && pedestrians) {
-                pedestrians.forEach(p => { if (p) p.visible = visible; });
-            }
-            if (typeof junctions !== 'undefined' && junctions) {
-                junctions.forEach(j => { if (j) j.visible = visible; });
-            }
-            if (typeof sunMesh !== 'undefined' && sunMesh) sunMesh.visible = visible;
-            if (typeof moonMesh !== 'undefined' && moonMesh) moonMesh.visible = visible;
-            if (typeof starFieldMesh !== 'undefined' && starFieldMesh) starFieldMesh.visible = visible;
-            if (typeof sunGlowMesh !== 'undefined' && sunGlowMesh) sunGlowMesh.visible = visible;
-            if (typeof sunRaysMesh !== 'undefined' && sunRaysMesh) sunRaysMesh.visible = visible;
-            if (typeof moonGlowMesh !== 'undefined' && moonGlowMesh) moonGlowMesh.visible = visible;
-        }
-
-        function createCyberGarage() {
-            if (garageGroup) {
-                scene.remove(garageGroup);
-            }
-            garageGroup = new THREE.Group();
-
-            // 1. High-Tech Reflective Carbon/Gloss Showroom Floor
-            const floorGeo = new THREE.PlaneGeometry(42, 42);
-            floorGeo.rotateX(-Math.PI / 2);
-            const floorMat = new THREE.MeshStandardMaterial({
-                color: 0x060914,
-                roughness: 0.18,
-                metalness: 0.88
-            });
-            const floor = new THREE.Mesh(floorGeo, floorMat);
-            floor.position.y = -0.01;
-            garageGroup.add(floor);
-
-            // Subtle neon floor grid perimeter
-            const gridBorderMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, transparent: true, opacity: 0.35 });
-            const gridBorder = new THREE.Mesh(new THREE.RingGeometry(9.5, 9.6, 64), gridBorderMat);
-            gridBorder.rotateX(-Math.PI / 2);
-            gridBorder.position.y = 0.005;
-            garageGroup.add(gridBorder);
-
-            // 2. High-Tech Garage Walls (Back & Side Hangar Panels)
-            const wallMat = new THREE.MeshStandardMaterial({
-                color: 0x070c1a,
-                roughness: 0.6,
-                metalness: 0.5
-            });
-
-            // Back Wall
-            const backWall = new THREE.Mesh(new THREE.PlaneGeometry(42, 14), wallMat);
-            backWall.position.set(0, 7, -18);
-            garageGroup.add(backWall);
-
-            // Left Wall
-            const leftWall = new THREE.Mesh(new THREE.PlaneGeometry(42, 14), wallMat);
-            leftWall.rotation.y = Math.PI / 2;
-            leftWall.position.set(-18, 7, 0);
-            garageGroup.add(leftWall);
-
-            // Right Wall
-            const rightWall = new THREE.Mesh(new THREE.PlaneGeometry(42, 14), wallMat);
-            rightWall.rotation.y = -Math.PI / 2;
-            rightWall.position.set(18, 7, 0);
-            garageGroup.add(rightWall);
-
-            // Garage Ceiling
-            const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(42, 42), new THREE.MeshBasicMaterial({ color: 0x030610 }));
-            ceiling.rotation.x = Math.PI / 2;
-            ceiling.position.y = 14;
-            garageGroup.add(ceiling);
-
-            // 3. Neon LED Architectural Lighting
-            const neonCyanMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
-            const neonAmberMat = new THREE.MeshBasicMaterial({ color: 0xff3366 });
-
-            // Back wall horizontal neon strips
-            const ledBack1 = new THREE.Mesh(new THREE.BoxGeometry(36, 0.12, 0.08), neonCyanMat);
-            ledBack1.position.set(0, 2.6, -17.9);
-            garageGroup.add(ledBack1);
-
-            const ledBack2 = new THREE.Mesh(new THREE.BoxGeometry(26, 0.08, 0.08), neonAmberMat);
-            ledBack2.position.set(0, 8.5, -17.9);
-            garageGroup.add(ledBack2);
-
-            // Vertical neon light pillars
-            [-12, -6, 6, 12].forEach(x => {
-                const pillarStrip = new THREE.Mesh(new THREE.BoxGeometry(0.14, 10, 0.08), neonCyanMat);
-                pillarStrip.position.set(x, 5, -17.85);
-                garageGroup.add(pillarStrip);
-            });
-
-            // 4. Overhead Studio Softbox Light Frame
-            const softboxLightMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-            const softbox = new THREE.Mesh(new THREE.BoxGeometry(8, 0.1, 14), softboxLightMat);
-            softbox.position.set(0, 11.8, 0);
-            garageGroup.add(softbox);
-
-            const sbBorder = new THREE.Mesh(new THREE.BoxGeometry(8.4, 0.18, 14.4), new THREE.MeshBasicMaterial({ color: 0x00f0ff }));
-            sbBorder.position.set(0, 11.9, 0);
-            garageGroup.add(sbBorder);
-
-            // 5. Studio Showroom Lights
-            garageStudioLight = new THREE.SpotLight(0xffffff, 2.6, 35, Math.PI / 3.4, 0.45, 1.2);
-            garageStudioLight.position.set(0, 11, 2);
-            garageStudioLight.target.position.set(0, 0.4, 0);
-            garageGroup.add(garageStudioLight);
-            garageGroup.add(garageStudioLight.target);
-
-            garageFillLight = new THREE.PointLight(0x00f0ff, 1.4, 25);
-            garageFillLight.position.set(-6, 3.5, 4);
-            garageGroup.add(garageFillLight);
-
-            garageRimLight = new THREE.PointLight(0xff0055, 1.2, 22);
-            garageRimLight.position.set(6, 3, -6);
-            garageGroup.add(garageRimLight);
-
-            scene.add(garageGroup);
-        }
-
-        function enterGarageShowroomMode() {
-            setTrackVisibility(false);
-            if (garageGroup) garageGroup.visible = true;
-            if (showroomTurntableGroup) showroomTurntableGroup.visible = true;
-            if (scene) {
-                scene.background = new THREE.Color(0x030612);
-                scene.fog = new THREE.Fog(0x030612, 24, 75);
-            }
-            document.body.classList.remove('in-race');
-            const touchControls = document.getElementById('touch-controls');
-            if (touchControls) touchControls.classList.add('hidden');
-        }
-
-        function exitGarageToRaceMode() {
-            if (garageGroup) garageGroup.visible = false;
-            if (showroomTurntableGroup) showroomTurntableGroup.visible = false;
-            setTrackVisibility(true);
-            document.body.classList.add('in-race');
-            const toggleTouch = document.getElementById('toggleTouch');
-            const touchControls = document.getElementById('touch-controls');
-            if (toggleTouch && toggleTouch.checked && touchControls) {
-                document.body.classList.add('touch-enabled');
-                touchControls.classList.remove('hidden');
-            } else {
-                document.body.classList.remove('touch-enabled');
-                if (touchControls) touchControls.classList.add('hidden');
-            }
-        }
-
-        function createShowroomTurntable() {
-            if (showroomTurntableGroup) {
-                scene.remove(showroomTurntableGroup);
-            }
-            showroomTurntableGroup = new THREE.Group();
-            showroomTurntableGroup.position.set(0, 0.02, 0);
-
-            // Inner glowing hologram ring
-            const ringGeo1 = new THREE.RingGeometry(2.35, 2.45, 64);
-            ringGeo1.rotateX(-Math.PI / 2);
-            const ringMat1 = new THREE.MeshBasicMaterial({
-                color: (typeof playerCustomColor !== 'undefined' && playerCustomColor !== null) ? playerCustomColor : 0x00f0ff,
-                side: THREE.DoubleSide,
-                transparent: true,
-                opacity: 0.85
-            });
-            showroomRingMesh = new THREE.Mesh(ringGeo1, ringMat1);
-            showroomTurntableGroup.add(showroomRingMesh);
-
-            // Outer dashed ring
-            const ringGeo2 = new THREE.RingGeometry(3.05, 3.12, 64);
-            ringGeo2.rotateX(-Math.PI / 2);
-            const ringMat2 = new THREE.MeshBasicMaterial({
-                color: 0x00f0ff,
-                side: THREE.DoubleSide,
-                transparent: true,
-                opacity: 0.45
-            });
-            const outerRing = new THREE.Mesh(ringGeo2, ringMat2);
-            showroomTurntableGroup.add(outerRing);
-
-            // Dark reflective pedestal base
-            const diskGeo = new THREE.CircleGeometry(3.2, 64);
-            diskGeo.rotateX(-Math.PI / 2);
-            const diskMat = new THREE.MeshStandardMaterial({
-                color: 0x060c1c,
-                metalness: 0.92,
-                roughness: 0.18,
-                transparent: true,
-                opacity: 0.8
-            });
-            const diskMesh = new THREE.Mesh(diskGeo, diskMat);
-            diskMesh.position.y = -0.01;
-            showroomTurntableGroup.add(diskMesh);
-
-            scene.add(showroomTurntableGroup);
-        }
-
-        function updateShowroomPedestalColor(color) {
-            if (showroomRingMesh && showroomRingMesh.material) {
-                showroomRingMesh.material.color.setHex(color);
-            }
-        }
-
-        function playBootChime() {
-            if (!audioCtx || audioCtx.state !== 'running') return;
-            try {
-                const now = audioCtx.currentTime;
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(523.25, now); // C5
-                osc.frequency.exponentialRampToValueAtTime(1046.50, now + 0.25); // C6
-                gain.gain.setValueAtTime(0.15, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start(now);
-                osc.stop(now + 0.45);
-            } catch (e) {}
-        }
-
-        function playEngineRevSound() {
-            initAudio();
-            if (!audioCtx || audioCtx.state !== 'running') return;
-            try {
-                const now = audioCtx.currentTime;
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                const filter = audioCtx.createBiquadFilter();
-
-                osc.type = 'sawtooth';
-                filter.type = 'lowpass';
-                filter.frequency.setValueAtTime(400, now);
-                filter.frequency.exponentialRampToValueAtTime(2400, now + 0.25);
-                filter.frequency.exponentialRampToValueAtTime(600, now + 0.7);
-
-                osc.frequency.setValueAtTime(65, now);
-                osc.frequency.exponentialRampToValueAtTime(260, now + 0.25);
-                osc.frequency.exponentialRampToValueAtTime(80, now + 0.7);
-
-                gain.gain.setValueAtTime(0.05, now);
-                gain.gain.linearRampToValueAtTime(0.22, now + 0.25);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.75);
-
-                osc.connect(filter);
-                filter.connect(gain);
-                gain.connect(audioCtx.destination);
-
-                osc.start(now);
-                osc.stop(now + 0.75);
-            } catch (e) {}
-        }
-
-        function startCyberBootSequence() {
-            const bootModal = document.getElementById('cyberBootModal');
-            const bootBar = document.getElementById('bootProgressBar');
-            const bootPct = document.getElementById('bootPctText');
-            const bootStatus = document.getElementById('bootStatusText');
-
-            if (!bootModal || !bootBar) {
-                if (!getPilotName()) requestPilotName();
-                return;
-            }
-
-            let progress = 0;
-            const steps = [
-                { at: 20, text: 'CHECKING QUANTUM SENSORS...' },
-                { at: 50, text: 'SYNCHRONIZING HIGHWAY MATRIX...' },
-                { at: 75, text: 'STREAMING PHOTON SHADERS & UNDERGLOW...' },
-                { at: 95, text: 'INITIALIZING NEURAL PILOT LINK...' },
-                { at: 100, text: 'SYSTEM READY // ALL CIRCUITS ONLINE' }
-            ];
-
-            const interval = setInterval(() => {
-                progress += Math.floor(Math.random() * 8) + 4;
-                if (progress > 100) progress = 100;
-
-                bootBar.style.width = progress + '%';
-                bootPct.textContent = progress + '%';
-
-                const currentStep = steps.find(s => progress <= s.at);
-                if (currentStep) {
-                    bootStatus.textContent = currentStep.text;
-                }
-
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    playBootChime();
-                    setTimeout(() => {
-                        bootModal.classList.add('fade-out');
-                        setTimeout(() => {
-                            bootModal.remove();
-                            isBootSequenceActive = false;
-                            if (!getPilotName()) {
-                                requestPilotName();
-                            } else {
-                                updatePilotNameDisplay();
-                                if (!isGameRunning) startLobbyMusic();
-                            }
-                        }, 600);
-                    }, 400);
-                }
-            }, 60);
-        }
-
-        function setupShowroomControls() {
-            const container = document.getElementById('screen-overlay');
-            if (!container) return;
-
-            const onPointerDown = (e) => {
-                if (isGameRunning) return;
-                // Don't drag if clicking buttons or decks
-                if (e.target.closest('.lobby-deck') || e.target.closest('.lobby-header') || e.target.closest('button') || e.target.closest('.action-btn')) return;
-                isShowroomDragging = true;
-                showroomLastPointerX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
-                showroomLastPointerY = e.clientY || (e.touches && e.touches[0].clientY) || 0;
-            };
-
-            const onPointerMove = (e) => {
-                if (!isShowroomDragging || isGameRunning) return;
-                const clientX = e.clientX || (e.touches && e.touches[0].clientX) || 0;
-                const clientY = e.clientY || (e.touches && e.touches[0].clientY) || 0;
-                const deltaX = clientX - showroomLastPointerX;
-                const deltaY = clientY - showroomLastPointerY;
-                showroomLastPointerX = clientX;
-                showroomLastPointerY = clientY;
-
-                targetShowroomAngle -= deltaX * 0.009;
-                targetShowroomElevation = Math.max(0.6, Math.min(3.6, targetShowroomElevation + deltaY * 0.007));
-            };
-
-            const onPointerUp = () => {
-                isShowroomDragging = false;
-            };
-
-            window.addEventListener('mousedown', onPointerDown);
-            window.addEventListener('mousemove', onPointerMove);
-            window.addEventListener('mouseup', onPointerUp);
-
-            window.addEventListener('touchstart', onPointerDown, { passive: true });
-            window.addEventListener('touchmove', onPointerMove, { passive: true });
-            window.addEventListener('touchend', onPointerUp, { passive: true });
-
-            // Showroom View Toggle
-            const viewToggleBtn = document.getElementById('lobbyToggleViewBtn');
-            const lobbyLayout = document.getElementById('mainMenuModal');
-            if (viewToggleBtn && lobbyLayout) {
-                viewToggleBtn.addEventListener('click', () => {
-                    const isCinematic = lobbyLayout.classList.toggle('cinematic-mode');
-                    viewToggleBtn.innerHTML = isCinematic ? '✕ EXIT VIEW' : '👁️ SHOWROOM';
-                });
-            }
-
-            // Callsign Edit Button
-            const editPilotBtn = document.getElementById('editPilotNameBtn');
-            if (editPilotBtn) {
-                editPilotBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    pilotNameModal.classList.remove('hidden');
-                    if (pilotNameInput) {
-                        pilotNameInput.value = getPilotName() || '';
-                        pilotNameInput.focus();
-                    }
-                });
-            }
-
-            // Callsign suggestion tags
-            document.querySelectorAll('.callsign-tag').forEach(tag => {
-                tag.addEventListener('click', () => {
-                    if (pilotNameInput) {
-                        pilotNameInput.value = tag.getAttribute('data-tag');
-                        pilotNameInput.focus();
-                    }
-                });
-            });
-
-            // Engine Rev Button
-            const revBtn = document.getElementById('revTestBtn');
-            if (revBtn) {
-                revBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    revBtn.classList.add('revving');
-                    playEngineRevSound();
-                    setTimeout(() => revBtn.classList.remove('revving'), 750);
-                });
-            }
-
-            // Auto Turntable Orbit Toggle
-            const orbitBtn = document.getElementById('turntableToggleBtn');
-            if (orbitBtn) {
-                orbitBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    isTurntableActive = !isTurntableActive;
-                    orbitBtn.textContent = isTurntableActive ? '🔄 3D AUTO ORBIT: ON' : '⏸️ 3D AUTO ORBIT: OFF';
-                    orbitBtn.style.color = isTurntableActive ? 'var(--cyan)' : '#8fa7c4';
-                });
-            }
-        }
-
         function init() {
             scene = new THREE.Scene();
             scene.background = new THREE.Color(0x87ceeb);
@@ -4127,9 +3211,8 @@ body:not(.in-race) #pauseCrashModal.hidden {
             const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || (window.innerWidth < 768);
             renderer = new THREE.WebGLRenderer({ antialias: !isMobileDevice, alpha: false, powerPreference: "high-performance" });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.25)); // Locked for locked 120 FPS performance
-            renderer.shadowMap.enabled = true;
-            renderer.shadowMap.type = THREE.BasicShadowMap; // Ultra fast 120 FPS shadow map
+            renderer.setPixelRatio(isMobileDevice ? Math.min(window.devicePixelRatio, 1.25) : Math.min(window.devicePixelRatio, 1.5));
+            renderer.shadowMap.enabled = !isMobileDevice || window.innerWidth > 800;
             renderer.shadowMap.type = THREE.PCFShadowMap;
             renderer.toneMapping = THREE.ACESFilmicToneMapping;
             renderer.toneMappingExposure = 1.2;
@@ -4167,10 +3250,6 @@ body:not(.in-race) #pauseCrashModal.hidden {
             playerCustomColor = 0x00f0ff;
             selectedVehicleType = 'car';
             spawnSelectedPlayerVehicle(0x00f0ff);
-            createCyberGarage();
-            createShowroomTurntable();
-            enterGarageShowroomMode();
-            setupShowroomControls();
 
             playerBox = new THREE.Box3();
 
@@ -4185,7 +3264,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             pilotNameInput.addEventListener('keydown', event => {
                 if (event.key === 'Enter') savePilotName();
             });
-            startCyberBootSequence();
+            requestPilotName();
             updatePilotNameDisplay();
 
             const enableAudioOnUserAction = () => {
@@ -4303,7 +3382,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
                 const vy = Math.cos(phi) * speed + (isFireball ? 4 : 2);
                 const vz = Math.sin(phi) * Math.sin(theta) * speed;
 
-                // mesh.castShadow = false;
+                mesh.castShadow = true;
                 scene.add(mesh);
 
                 crashParticles.push({
@@ -4467,16 +3546,10 @@ body:not(.in-race) #pauseCrashModal.hidden {
             mainMenuModal.classList.add('hidden');
             if (pauseCrashModal) {
                 pauseCrashModal.classList.remove('hidden');
-                pauseCrashModal.style.display = 'flex';
                 pauseCrashModal.classList.add('crashed');
-                if (pauseCrashTitle) pauseCrashTitle.innerText = "CRASH IMPACT DETECTED";
-                const statTime = document.getElementById('crashStatTime');
-                const statScore = document.getElementById('crashStatScore');
-                const statSpeed = document.getElementById('crashStatSpeed');
-                if (statTime) statTime.innerText = Math.floor(gameTime) + 's';
-                if (statScore) statScore.innerText = Math.floor(score);
-                if (statSpeed) statSpeed.innerText = Math.floor(currentSpeed * 70) + ' KM/H';
-                if (pauseResumeBtn) pauseResumeBtn.innerText = "⚡ RE-DEPLOY / PLAY AGAIN";
+                pauseCrashTitle.innerText = "CRASH DETECTED!";
+                pauseCrashText.innerHTML = `Survival Time: <strong>${Math.floor(gameTime)}s</strong><br>Final Score: <strong>${Math.floor(score)}</strong>`;
+                pauseResumeBtn.innerText = "PLAY AGAIN";
             }
             settingsModal.classList.add('hidden');
             screenOverlay.classList.remove('hidden');
@@ -5699,7 +4772,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             // Main body
             const body = new THREE.Mesh(new THREE.BoxGeometry(2.62, 2.60, 7.55), busMat);
             body.position.set(0, 1.62, 0);
-            if (typeof isTraffic !== "undefined" || thisIsVehicle) body.castShadow = true;
+            body.castShadow = true;
             group.add(body);
 
             // Flat roof
@@ -5838,7 +4911,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             // ── Main body (tall off-road profile) ───────────────────────
             const body = new THREE.Mesh(new THREE.BoxGeometry(1.95, 1.38, 3.85), bodyMat);
             body.position.set(0, 0.98, 0);
-            if (typeof isTraffic !== "undefined" || thisIsVehicle) body.castShadow = true;
+            body.castShadow = true;
             group.add(body);
 
             // Front fender flares
@@ -6557,7 +5630,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
                 const geo = new THREE.ExtrudeGeometry(shape, { depth: curbHeight, bevelEnabled: false });
                 geo.rotateX(-Math.PI / 2);
                 const mesh = new THREE.Mesh(geo, curbMat);
-                // mesh.castShadow = false;
+                mesh.castShadow = true;
                 mesh.receiveShadow = true;
                 segmentGroup.add(mesh);
             });
@@ -6668,7 +5741,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
                         curbMat
                     );
                     mainCurb.position.set(side * (roadWidth / 2 + curbDepth / 2), curbHeight / 2, -30);
-                    // mainCurb.castShadow = false;
+                    mainCurb.castShadow = true;
                     mainCurb.receiveShadow = true;
                     segmentGroup.add(mainCurb);
 
@@ -6682,7 +5755,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
                             curbMat
                         );
                         crossCurb.position.set(side * 30, curbHeight / 2, crossSide * (roadWidth / 2 + curbDepth / 2));
-                        // crossCurb.castShadow = false;
+                        crossCurb.castShadow = true;
                         crossCurb.receiveShadow = true;
                         segmentGroup.add(crossCurb);
                     });
@@ -6694,7 +5767,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
                         curbMat
                     );
                     curb.position.set(side * (roadWidth / 2 + curbDepth / 2), curbHeight / 2, 0);
-                    // curb.castShadow = false;
+                    curb.castShadow = true;
                     curb.receiveShadow = true;
                     segmentGroup.add(curb);
                 });
@@ -6721,7 +5794,30 @@ body:not(.in-race) #pauseCrashModal.hidden {
             const grassBladeMat2 = new THREE.MeshStandardMaterial({ color: 0x43a047, roughness: 0.95 });
             const flowerPetalMat = new THREE.MeshBasicMaterial({ color: 0xffd23f });
 
-            // Road studs removed for clean track & 120 FPS performance
+            // 3D Retroreflective Road Studs ("Cats' Eyes") — reduced density for performance
+            // White studs along the 2 dashed lane dividers (-2.5 and +2.5)
+            [-2.5, 2.5].forEach(x => {
+                for (let z = -segmentLength / 2 + 5; z < segmentLength / 2; z += 24) {
+                    const stud = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.04, 0.22), studMat);
+                    stud.position.set(x, 0.05, z);
+                    segmentGroup.add(stud);
+                }
+            });
+
+            // Amber studs along left yellow edge line (-7.25)
+            for (let z = -segmentLength / 2 + 5; z < segmentLength / 2; z += 24) {
+                const stud = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.04, 0.22), studMat);
+                stud.position.set(-7.25, 0.05, z);
+                segmentGroup.add(stud);
+            }
+
+            // Red studs along right white edge line (+7.25)
+            for (let z = -segmentLength / 2 + 5; z < segmentLength / 2; z += 24) {
+                const stud = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.04, 0.22), studMat);
+                stud.position.set(7.25, 0.05, z);
+                segmentGroup.add(stud);
+            }
+
             // Clean storm drain grates embedded in asphalt shoulder
             [-1, 1].forEach(side => {
                 const drain = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.03, 1.45), drainMat);
@@ -6844,7 +5940,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
                 // Continuous corrugated W-beam guardrail
                 const rail = new THREE.Mesh(new THREE.BoxGeometry(0.08, 0.38, segmentLength), guardrailMat);
                 rail.position.set(side, 0.55, 0);
-                // rail.castShadow = false;
+                rail.castShadow = true;
                 segmentGroup.add(rail);
 
                 // Lower rub rail
@@ -6856,7 +5952,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
                 for (let pz = -segmentLength / 2 + 2.5; pz < segmentLength / 2; pz += 5.0) {
                     const post = new THREE.Mesh(new THREE.BoxGeometry(0.10, 0.70, 0.12), darkPostMat);
                     post.position.set(side + (side > 0 ? 0.08 : -0.08), 0.35, pz);
-                    // post.castShadow = false;
+                    post.castShadow = true;
 
                     const tab = new THREE.Mesh(new THREE.BoxGeometry(0.02, 0.10, 0.08), side < 0 ? amberRefMat : redRefMat);
                     tab.position.set(side + (side > 0 ? -0.05 : 0.05), 0.55, pz);
@@ -7043,7 +6139,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             [-12.8, 12.8].forEach(px => {
                 const pier = new THREE.Mesh(new THREE.BoxGeometry(2.6, deckY + 0.2, 8.4), concreteMat);
                 pier.position.set(px, (deckY + 0.2) / 2, 0);
-                // pier.castShadow = false;
+                pier.castShadow = true;
                 pier.receiveShadow = true;
 
                 // Heavy impact deflection crash barrier at ground level
@@ -7077,7 +6173,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             // 3. Bridge Road Deck
             const deck = new THREE.Mesh(new THREE.BoxGeometry(deckLength, deckThickness, deckWidth), concreteMat);
             deck.position.set(0, deckY, 0);
-            // deck.castShadow = false;
+            deck.castShadow = true;
             deck.receiveShadow = true;
             bridgeGroup.add(deck);
 
@@ -7106,13 +6202,13 @@ body:not(.in-race) #pauseCrashModal.hidden {
             [-2.8, -0.9, 0.9, 2.8].forEach(gz => {
                 const girder = new THREE.Mesh(new THREE.BoxGeometry(deckLength, 0.9, 0.35), steelMat);
                 girder.position.set(0, deckY - 0.75, gz);
-                // girder.castShadow = false;
+                girder.castShadow = true;
                 bridgeGroup.add(girder);
             });
             for (let x = -20; x <= 20; x += 4) {
                 const crossBeam = new THREE.Mesh(new THREE.BoxGeometry(0.35, 0.8, deckWidth), steelMat);
                 crossBeam.position.set(x, deckY - 0.75, 0);
-                // crossBeam.castShadow = false;
+                crossBeam.castShadow = true;
                 bridgeGroup.add(crossBeam);
             }
 
@@ -7130,7 +6226,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
                 const archCurve = new THREE.CatmullRomCurve3(archPts);
                 const archGeo = new THREE.TubeGeometry(archCurve, 36, 0.42, 12, false);
                 const archMesh = new THREE.Mesh(archGeo, steelMat);
-                // archMesh.castShadow = false;
+                archMesh.castShadow = true;
                 bridgeGroup.add(archMesh);
 
                 // Vertical steel suspension hanger cables
@@ -7323,7 +6419,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             // Torso (Holstein black & white spotted)
             const body = new THREE.Mesh(new THREE.BoxGeometry(1.35, 1.15, 2.20), whiteMat);
             body.position.y = 1.30;
-            if (typeof isTraffic !== "undefined" || thisIsVehicle) body.castShadow = true;
+            body.castShadow = true;
             cow.add(body);
 
             // Random black patches on torso
@@ -7501,7 +6597,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             // Muscular torso
             const body = new THREE.Mesh(new THREE.BoxGeometry(1.25, 1.15, 2.35), coatMat);
             body.position.y = 1.62;
-            if (typeof isTraffic !== "undefined" || thisIsVehicle) body.castShadow = true;
+            body.castShadow = true;
             horse.add(body);
 
             // Hindquarters curve
@@ -7706,7 +6802,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             const bWidth = 14, bHeight = 9, bDepth = 18;
             const barnWalls = new THREE.Mesh(new THREE.BoxGeometry(bWidth, bHeight, bDepth), barnRedMat);
             barnWalls.position.set(0, bHeight / 2, 0);
-            // barnWalls.castShadow = false;
+            barnWalls.castShadow = true;
             barnGroup.add(barnWalls);
 
             // Barn White Trim & Sliding Cross-braced Doors
@@ -7729,7 +6825,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             const siloGroup = new THREE.Group();
             const siloCyl = new THREE.Mesh(new THREE.CylinderGeometry(2.4, 2.4, 14, 20), siloMat);
             siloCyl.position.y = 7;
-            // siloCyl.castShadow = false;
+            siloCyl.castShadow = true;
             const siloDome = new THREE.Mesh(new THREE.SphereGeometry(2.4, 20, 12, 0, Math.PI * 2, 0, Math.PI / 2), siloMat);
             siloDome.position.y = 14;
             siloGroup.add(siloCyl, siloDome);
@@ -7826,7 +6922,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             // Main school academy building
             const mainWing = new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), brickMat);
             mainWing.position.y = height / 2;
-            // mainWing.castShadow = false;
+            mainWing.castShadow = true;
             group.add(mainWing);
 
             // Pitched Academy Roof
@@ -7897,7 +6993,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             // Main Modern Hospital Complex (Tiered multi-wing)
             const mainTower = new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), whiteMat);
             mainTower.position.y = height / 2;
-            // mainTower.castShadow = false;
+            mainTower.castShadow = true;
             group.add(mainTower);
 
             // Cyan architectural accent bands
@@ -7971,7 +7067,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             // Main residential tower
             const tower = new THREE.Mesh(new THREE.BoxGeometry(width, height, depth), concreteMat);
             tower.position.y = height / 2;
-            // tower.castShadow = false;
+            tower.castShadow = true;
             group.add(tower);
 
             // Recessed Balconies & Glass Balustrades on every floor
@@ -8070,7 +7166,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
 
             const building = new THREE.Mesh(bGeo, bMat);
             building.position.y = height / 2;
-            // building.castShadow = false;
+            building.castShadow = true;
             building.receiveShadow = true;
             group.add(building);
             group.userData.sceneryBounds = { xRadius: width / 2, zRadius: depth / 2 };
@@ -8187,15 +7283,15 @@ body:not(.in-race) #pauseCrashModal.hidden {
 
             // Defined staggered offsets and lane rotations for instant race feel
             const spawnPlan = [
-                { dist: 45,  lane: -5 },
-                { dist: 78,  lane:  5 },
-                { dist: 112, lane:  0 },
+                { dist: 45, lane: -5 },
+                { dist: 78, lane: 5 },
+                { dist: 112, lane: 0 },
                 { dist: 148, lane: -5 },
-                { dist: 184, lane:  5 },
-                { dist: 220, lane:  0 },
+                { dist: 184, lane: 5 },
+                { dist: 220, lane: 0 },
                 { dist: 260, lane: -5 },
-                { dist: 300, lane:  5 },
-                { dist: 340, lane:  0 }
+                { dist: 300, lane: 5 },
+                { dist: 340, lane: 0 }
             ];
 
             for (let i = 0; i < count && i < spawnPlan.length; i++) {
@@ -9035,7 +8131,6 @@ body:not(.in-race) #pauseCrashModal.hidden {
             }
 
             currentSpeed = baseSpeed;
-            exitGarageToRaceMode();
             isGameRunning = true;
             isPaused = false;
 
@@ -9089,33 +8184,20 @@ body:not(.in-race) #pauseCrashModal.hidden {
             stopRainSound();
             startLobbyMusic();
 
-            resetWorldTrack();
-            setWeatherEnvironment(0); // Restore clear showroom lighting
-
             if (playerCar) {
                 playerCar.position.set(0, 0, 0);
                 playerCar.rotation.set(0, 0, 0);
             }
-            if (showroomTurntableGroup) {
-                showroomTurntableGroup.visible = true;
-            }
-            targetShowroomAngle = 0.8;
-            targetShowroomElevation = 1.7;
-            targetShowroomDistance = 6.4;
-            isTurntableActive = true;
+            camera.position.set(0, 3.8, 8.5);
+            camera.rotation.set(-0.22, 0, 0);
+            camera.fov = 60;
+            camera.updateProjectionMatrix();
 
-            if (pauseCrashModal) {
-                pauseCrashModal.classList.add('hidden');
-                pauseCrashModal.style.display = 'none';
-            }
-            enterGarageShowroomMode();
+            if (pauseCrashModal) pauseCrashModal.classList.add('hidden');
             settingsModal.classList.add('hidden');
             mainMenuModal.classList.remove('hidden');
             screenOverlay.classList.remove('hidden');
-            
-            // Re-render and ensure loop keeps running smoothly
-            lastFrameTime = performance.now();
-            if (animFrameId === null) gameLoop();
+            renderer.render(scene, camera);
         }
 
         function gameOver() {
@@ -9670,29 +8752,12 @@ body:not(.in-race) #pauseCrashModal.hidden {
                     renderer.render(scene, camera);
                 }
             } else if (!isGameRunning) {
-                animFrameId = requestAnimationFrame(gameLoop);
-                const now = performance.now();
-                const delta = Math.min((now - lastFrameTime) / 1000, 0.1);
-                lastFrameTime = now;
-
-                if (isTurntableActive && !isShowroomDragging) {
-                    targetShowroomAngle += delta * 0.35;
+                if (playerCar) {
+                    playerCar.position.set(0, 0, 0);
+                    playerCar.rotation.set(0, 0, 0);
                 }
-                showroomAngle += (targetShowroomAngle - showroomAngle) * 0.12;
-                showroomElevation += (targetShowroomElevation - showroomElevation) * 0.12;
-                showroomDistance += (targetShowroomDistance - showroomDistance) * 0.12;
-
-                if (camera) {
-                    camera.position.x = Math.sin(showroomAngle) * showroomDistance;
-                    camera.position.z = Math.cos(showroomAngle) * showroomDistance;
-                    camera.position.y = showroomElevation;
-                    camera.lookAt(0, 0.65, 0);
-                }
-
-                if (showroomRingMesh) {
-                    showroomRingMesh.rotation.z += delta * 0.5;
-                }
-
+                camera.position.set(0, 3.8, 8.5);
+                camera.rotation.set(-0.22, 0, 0);
                 renderer.render(scene, camera);
             }
         }
