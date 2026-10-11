@@ -2236,416 +2236,427 @@
                 text-shadow: 0 0 8px rgba(0, 240, 255, 0.50);
                 min-height: 16px;
             }
-    
-/* ═══════════════════════════════════════════════════════════════════
+
+            /* ═══════════════════════════════════════════════════════════════════
    CYBER BOOT LOADING SCREEN & NEXT-GEN SHOWROOM LOBBY STYLES
    ═══════════════════════════════════════════════════════════════════ */
 
-/* ── CYBER BOOT LOADING SCREEN ───────────────────────────── */
-.cyber-boot-screen {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: radial-gradient(ellipse at 50% 45%, #05102a 0%, #02040c 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s ease;
-    pointer-events: auto;
-}
+            /* ── CYBER BOOT LOADING SCREEN ───────────────────────────── */
+            .cyber-boot-screen {
+                position: fixed;
+                inset: 0;
+                z-index: 9999;
+                background: radial-gradient(ellipse at 50% 45%, #05102a 0%, #02040c 100%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s ease;
+                pointer-events: auto;
+            }
 
-.cyber-boot-screen.fade-out {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
+            .cyber-boot-screen.fade-out {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+            }
 
-.boot-matrix-bg {
-    position: absolute;
-    inset: 0;
-    background-image: 
-        linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
-    background-size: 36px 36px;
-    animation: gridMove 16s linear infinite;
-    pointer-events: none;
-}
+            .boot-matrix-bg {
+                position: absolute;
+                inset: 0;
+                background-image:
+                    linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+                background-size: 36px 36px;
+                animation: gridMove 16s linear infinite;
+                pointer-events: none;
+            }
 
-.boot-scanline {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, transparent 0%, rgba(0, 240, 255, 0.12) 50%, transparent 100%);
-    height: 120px;
-    animation: scanMove 3.2s linear infinite;
-    pointer-events: none;
-}
+            .boot-scanline {
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(180deg, transparent 0%, rgba(0, 240, 255, 0.12) 50%, transparent 100%);
+                height: 120px;
+                animation: scanMove 3.2s linear infinite;
+                pointer-events: none;
+            }
 
-@keyframes scanMove {
-    0% { transform: translateY(-120px); }
-    100% { transform: translateY(100vh); }
-}
+            @keyframes scanMove {
+                0% {
+                    transform: translateY(-120px);
+                }
 
-.boot-panel {
-    position: relative;
-    z-index: 2;
-    max-width: 480px;
-    width: 90%;
-    background: rgba(4, 8, 24, 0.90);
-    border: 1.5px solid rgba(0, 240, 255, 0.45);
-    border-radius: 20px;
-    padding: 34px 30px;
-    box-shadow: 0 0 60px rgba(0, 240, 255, 0.22), inset 0 0 35px rgba(0, 240, 255, 0.06);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
+                100% {
+                    transform: translateY(100vh);
+                }
+            }
 
-.boot-logo-wrap {
-    position: relative;
-    width: 76px;
-    height: 76px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 12px;
-}
+            .boot-panel {
+                position: relative;
+                z-index: 2;
+                max-width: 480px;
+                width: 90%;
+                background: rgba(4, 8, 24, 0.90);
+                border: 1.5px solid rgba(0, 240, 255, 0.45);
+                border-radius: 20px;
+                padding: 34px 30px;
+                box-shadow: 0 0 60px rgba(0, 240, 255, 0.22), inset 0 0 35px rgba(0, 240, 255, 0.06);
+                backdrop-filter: blur(24px);
+                -webkit-backdrop-filter: blur(24px);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
 
-.boot-logo-ring {
-    position: absolute;
-    inset: 0;
-    border: 2px dashed rgba(0, 240, 255, 0.6);
-    border-radius: 50%;
-    animation: spin 10s linear infinite;
-}
+            .boot-logo-wrap {
+                position: relative;
+                width: 76px;
+                height: 76px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 12px;
+            }
 
-.boot-logo-icon {
-    font-size: 34px;
-    filter: drop-shadow(0 0 14px var(--cyan));
-    animation: pulse 1.8s ease-in-out infinite;
-}
+            .boot-logo-ring {
+                position: absolute;
+                inset: 0;
+                border: 2px dashed rgba(0, 240, 255, 0.6);
+                border-radius: 50%;
+                animation: spin 10s linear infinite;
+            }
 
-.boot-kicker {
-    font-family: var(--font-r);
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: var(--cyan);
-    text-transform: uppercase;
-    margin-bottom: 6px;
-}
+            .boot-logo-icon {
+                font-size: 34px;
+                filter: drop-shadow(0 0 14px var(--cyan));
+                animation: pulse 1.8s ease-in-out infinite;
+            }
 
-.boot-title {
-    font-family: var(--font-r);
-    font-size: 26px;
-    font-weight: 900;
-    letter-spacing: 4px;
-    background: linear-gradient(135deg, #00f0ff 0%, #ffffff 50%, #ff0055 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 16px rgba(0, 240, 255, 0.6));
-    margin-bottom: 18px;
-}
+            .boot-kicker {
+                font-family: var(--font-r);
+                font-size: 10px;
+                letter-spacing: 3px;
+                color: var(--cyan);
+                text-transform: uppercase;
+                margin-bottom: 6px;
+            }
 
-.boot-console {
-    width: 100%;
-    background: rgba(1, 3, 12, 0.85);
-    border: 1px solid rgba(0, 240, 255, 0.2);
-    border-radius: 10px;
-    padding: 12px 14px;
-    margin-bottom: 20px;
-    text-align: left;
-    font-family: 'Courier New', monospace;
-    font-size: 10.5px;
-    color: #8fa7c4;
-    line-height: 1.6;
-}
+            .boot-title {
+                font-family: var(--font-r);
+                font-size: 26px;
+                font-weight: 900;
+                letter-spacing: 4px;
+                background: linear-gradient(135deg, #00f0ff 0%, #ffffff 50%, #ff0055 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                filter: drop-shadow(0 0 16px rgba(0, 240, 255, 0.6));
+                margin-bottom: 18px;
+            }
 
-.boot-line {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+            .boot-console {
+                width: 100%;
+                background: rgba(1, 3, 12, 0.85);
+                border: 1px solid rgba(0, 240, 255, 0.2);
+                border-radius: 10px;
+                padding: 12px 14px;
+                margin-bottom: 20px;
+                text-align: left;
+                font-family: 'Courier New', monospace;
+                font-size: 10.5px;
+                color: #8fa7c4;
+                line-height: 1.6;
+            }
 
-.boot-ok {
-    color: var(--green);
-    font-weight: 800;
-    text-shadow: 0 0 8px var(--green);
-}
+            .boot-line {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
 
-.boot-pulse {
-    color: var(--yellow);
-    animation: pulse 1s infinite;
-}
+            .boot-ok {
+                color: var(--green);
+                font-weight: 800;
+                text-shadow: 0 0 8px var(--green);
+            }
 
-.boot-progress-wrap {
-    width: 100%;
-    margin-bottom: 14px;
-}
+            .boot-pulse {
+                color: var(--yellow);
+                animation: pulse 1s infinite;
+            }
 
-.boot-progress-track {
-    width: 100%;
-    height: 8px;
-    background: rgba(0, 240, 255, 0.12);
-    border-radius: 8px;
-    overflow: hidden;
-    border: 1px solid rgba(0, 240, 255, 0.3);
-    position: relative;
-}
+            .boot-progress-wrap {
+                width: 100%;
+                margin-bottom: 14px;
+            }
 
-.boot-progress-bar {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, #00f0ff, #00ff88);
-    box-shadow: 0 0 16px var(--cyan);
-    border-radius: 8px;
-    transition: width 0.12s linear;
-}
+            .boot-progress-track {
+                width: 100%;
+                height: 8px;
+                background: rgba(0, 240, 255, 0.12);
+                border-radius: 8px;
+                overflow: hidden;
+                border: 1px solid rgba(0, 240, 255, 0.3);
+                position: relative;
+            }
 
-.boot-progress-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 8px;
-    font-family: var(--font-r);
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    color: #92b0d0;
-}
+            .boot-progress-bar {
+                height: 100%;
+                width: 0%;
+                background: linear-gradient(90deg, #00f0ff, #00ff88);
+                box-shadow: 0 0 16px var(--cyan);
+                border-radius: 8px;
+                transition: width 0.12s linear;
+            }
 
-.boot-pct {
-    color: var(--cyan);
-    font-weight: 800;
-}
+            .boot-progress-meta {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 8px;
+                font-family: var(--font-r);
+                font-size: 10px;
+                letter-spacing: 1.5px;
+                color: #92b0d0;
+            }
 
-/* ── INTERACTIVE SHOWROOM ADDITIONS ───────────────────────── */
-.lobby-hud-layout.cinematic-mode .lobby-deck {
-    transform: translateY(35px) scale(0.96);
-    opacity: 0;
-    pointer-events: none;
-}
+            .boot-pct {
+                color: var(--cyan);
+                font-weight: 800;
+            }
 
-.lobby-hud-layout.cinematic-mode .showroom-hint-badge {
-    opacity: 1;
-    transform: translate(-50%, 0);
-}
+            /* ── INTERACTIVE SHOWROOM ADDITIONS ───────────────────────── */
+            .lobby-hud-layout.cinematic-mode .lobby-deck {
+                transform: translateY(35px) scale(0.96);
+                opacity: 0;
+                pointer-events: none;
+            }
 
-.pilot-edit-btn {
-    background: none;
-    border: none;
-    color: var(--cyan);
-    font-size: 12px;
-    cursor: pointer;
-    padding: 2px 4px;
-    border-radius: 4px;
-    transition: all 0.2s;
-}
+            .lobby-hud-layout.cinematic-mode .showroom-hint-badge {
+                opacity: 1;
+                transform: translate(-50%, 0);
+            }
 
-.pilot-edit-btn:hover {
-    background: rgba(0, 240, 255, 0.2);
-    transform: scale(1.15);
-}
+            .pilot-edit-btn {
+                background: none;
+                border: none;
+                color: var(--cyan);
+                font-size: 12px;
+                cursor: pointer;
+                padding: 2px 4px;
+                border-radius: 4px;
+                transition: all 0.2s;
+            }
 
-.showroom-cam-btn {
-    background: rgba(0, 240, 255, 0.12) !important;
-    border-color: rgba(0, 240, 255, 0.45) !important;
-}
+            .pilot-edit-btn:hover {
+                background: rgba(0, 240, 255, 0.2);
+                transform: scale(1.15);
+            }
 
-.rev-test-btn {
-    background: linear-gradient(135deg, rgba(255, 120, 0, 0.15), rgba(4, 8, 20, 0.9));
-    border: 1px solid rgba(255, 120, 0, 0.45);
-    color: #ff9922;
-    font-family: var(--font-r);
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    padding: 8px 12px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.22s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    box-shadow: 0 0 12px rgba(255, 120, 0, 0.18);
-}
+            .showroom-cam-btn {
+                background: rgba(0, 240, 255, 0.12) !important;
+                border-color: rgba(0, 240, 255, 0.45) !important;
+            }
 
-.rev-test-btn:hover {
-    background: linear-gradient(135deg, rgba(255, 120, 0, 0.3), rgba(4, 8, 20, 0.95));
-    border-color: #ff8800;
-    box-shadow: 0 0 20px rgba(255, 120, 0, 0.45);
-    transform: translateY(-1px);
-}
+            .rev-test-btn {
+                background: linear-gradient(135deg, rgba(255, 120, 0, 0.15), rgba(4, 8, 20, 0.9));
+                border: 1px solid rgba(255, 120, 0, 0.45);
+                color: #ff9922;
+                font-family: var(--font-r);
+                font-size: 10px;
+                font-weight: 800;
+                letter-spacing: 2px;
+                padding: 8px 12px;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.22s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                box-shadow: 0 0 12px rgba(255, 120, 0, 0.18);
+            }
 
-.rev-test-btn.revving {
-    animation: revThrob 0.35s ease infinite alternate;
-    border-color: #ff0055;
-    color: #ff3377;
-}
+            .rev-test-btn:hover {
+                background: linear-gradient(135deg, rgba(255, 120, 0, 0.3), rgba(4, 8, 20, 0.95));
+                border-color: #ff8800;
+                box-shadow: 0 0 20px rgba(255, 120, 0, 0.45);
+                transform: translateY(-1px);
+            }
 
-@keyframes revThrob {
-    0% { transform: scale(1); filter: brightness(1); }
-    100% { transform: scale(1.04); filter: brightness(1.4); }
-}
+            .rev-test-btn.revving {
+                animation: revThrob 0.35s ease infinite alternate;
+                border-color: #ff0055;
+                color: #ff3377;
+            }
 
-.turntable-toggle-btn {
-    background: rgba(0, 240, 255, 0.08);
-    border: 1px solid rgba(0, 240, 255, 0.25);
-    color: var(--cyan);
-    font-family: var(--font-r);
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: center;
-}
+            @keyframes revThrob {
+                0% {
+                    transform: scale(1);
+                    filter: brightness(1);
+                }
 
-.turntable-toggle-btn:hover {
-    background: rgba(0, 240, 255, 0.18);
-    border-color: #00f0ff;
-}
+                100% {
+                    transform: scale(1.04);
+                    filter: brightness(1.4);
+                }
+            }
 
-.showroom-hint-badge {
-    position: absolute;
-    bottom: 24px;
-    left: 50%;
-    transform: translate(-50%, 0);
-    background: rgba(2, 6, 18, 0.85);
-    border: 1px solid rgba(0, 240, 255, 0.35);
-    border-radius: 20px;
-    padding: 6px 18px;
-    font-family: var(--font-r);
-    font-size: 9.5px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: var(--cyan);
-    pointer-events: none;
-    box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
-    z-index: 3;
-}
+            .turntable-toggle-btn {
+                background: rgba(0, 240, 255, 0.08);
+                border: 1px solid rgba(0, 240, 255, 0.25);
+                color: var(--cyan);
+                font-family: var(--font-r);
+                font-size: 9px;
+                font-weight: 700;
+                letter-spacing: 1.5px;
+                padding: 6px 10px;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                text-align: center;
+            }
 
-/* ── CRASH TELEMETRY OVERLAY STYLES ───────────────────────── */
-.crash-hazard-strip {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 6px;
-    background: repeating-linear-gradient(45deg, #ff0055, #ff0055 12px, #030614 12px, #030614 24px);
-}
+            .turntable-toggle-btn:hover {
+                background: rgba(0, 240, 255, 0.18);
+                border-color: #00f0ff;
+            }
 
-.pause-crash-title {
-    font-family: var(--font-r);
-    font-size: 22px;
-    font-weight: 900;
-    color: var(--cyan);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-top: 4px;
-}
+            .showroom-hint-badge {
+                position: absolute;
+                bottom: 24px;
+                left: 50%;
+                transform: translate(-50%, 0);
+                background: rgba(2, 6, 18, 0.85);
+                border: 1px solid rgba(0, 240, 255, 0.35);
+                border-radius: 20px;
+                padding: 6px 18px;
+                font-family: var(--font-r);
+                font-size: 9.5px;
+                font-weight: 700;
+                letter-spacing: 2px;
+                color: var(--cyan);
+                pointer-events: none;
+                box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+                backdrop-filter: blur(10px);
+                transition: all 0.3s ease;
+                z-index: 3;
+            }
 
-.pause-crash-card.crashed .pause-crash-title {
-    color: var(--red);
-    text-shadow: 0 0 16px rgba(255, 0, 85, 0.6);
-}
+            /* ── CRASH TELEMETRY OVERLAY STYLES ───────────────────────── */
+            .crash-hazard-strip {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 6px;
+                background: repeating-linear-gradient(45deg, #ff0055, #ff0055 12px, #030614 12px, #030614 24px);
+            }
 
-.pause-crash-subtitle {
-    font-family: var(--font-ui);
-    font-size: 11px;
-    color: #8fa7c4;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-}
+            .pause-crash-title {
+                font-family: var(--font-r);
+                font-size: 22px;
+                font-weight: 900;
+                color: var(--cyan);
+                letter-spacing: 3px;
+                text-transform: uppercase;
+                margin-top: 4px;
+            }
 
-.crash-telemetry-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    width: 100%;
-    margin: 4px 0;
-}
+            .pause-crash-card.crashed .pause-crash-title {
+                color: var(--red);
+                text-shadow: 0 0 16px rgba(255, 0, 85, 0.6);
+            }
 
-.c-stat-box {
-    background: rgba(6, 12, 30, 0.85);
-    border: 1px solid rgba(0, 240, 255, 0.22);
-    border-radius: 10px;
-    padding: 9px 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-}
+            .pause-crash-subtitle {
+                font-family: var(--font-ui);
+                font-size: 11px;
+                color: #8fa7c4;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+            }
 
-.pause-crash-card.crashed .c-stat-box {
-    border-color: rgba(255, 0, 85, 0.25);
-}
+            .crash-telemetry-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+                width: 100%;
+                margin: 4px 0;
+            }
 
-.c-stat-label {
-    font-family: var(--font-r);
-    font-size: 8px;
-    letter-spacing: 1.5px;
-    color: #6282a5;
-}
+            .c-stat-box {
+                background: rgba(6, 12, 30, 0.85);
+                border: 1px solid rgba(0, 240, 255, 0.22);
+                border-radius: 10px;
+                padding: 9px 12px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 2px;
+            }
 
-.c-stat-val {
-    font-family: var(--font-r);
-    font-size: 15px;
-    font-weight: 900;
-    color: #ffffff;
-    letter-spacing: 1.5px;
-}
+            .pause-crash-card.crashed .c-stat-box {
+                border-color: rgba(255, 0, 85, 0.25);
+            }
 
-/* Quick pilot callsign badges */
-.callsign-suggestions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    justify-content: center;
-    margin-top: 10px;
-}
+            .c-stat-label {
+                font-family: var(--font-r);
+                font-size: 8px;
+                letter-spacing: 1.5px;
+                color: #6282a5;
+            }
 
-.callsign-tag {
-    background: rgba(0, 240, 255, 0.08);
-    border: 1px solid rgba(0, 240, 255, 0.3);
-    color: var(--cyan);
-    font-family: var(--font-r);
-    font-size: 9px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
+            .c-stat-val {
+                font-family: var(--font-r);
+                font-size: 15px;
+                font-weight: 900;
+                color: #ffffff;
+                letter-spacing: 1.5px;
+            }
 
-.callsign-tag:hover {
-    background: rgba(0, 240, 255, 0.25);
-    border-color: #00f0ff;
-    transform: scale(1.08);
-}
+            /* Quick pilot callsign badges */
+            .callsign-suggestions {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 6px;
+                justify-content: center;
+                margin-top: 10px;
+            }
+
+            .callsign-tag {
+                background: rgba(0, 240, 255, 0.08);
+                border: 1px solid rgba(0, 240, 255, 0.3);
+                color: var(--cyan);
+                font-family: var(--font-r);
+                font-size: 9px;
+                padding: 4px 8px;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+
+            .callsign-tag:hover {
+                background: rgba(0, 240, 255, 0.25);
+                border-color: #00f0ff;
+                transform: scale(1.08);
+            }
 
 
-/* ── STRICT LOBBY TOUCH CONTROL HIDING & 120 FPS OPTIMIZATION ── */
-#touch-controls {
-    display: none !important;
-}
+            /* ── STRICT LOBBY TOUCH CONTROL HIDING & 120 FPS OPTIMIZATION ── */
+            #touch-controls {
+                display: none !important;
+            }
 
-body.in-race.touch-enabled #touch-controls {
-    display: flex !important;
-}
+            body.in-race.touch-enabled #touch-controls {
+                display: flex !important;
+            }
 
-/* Ensure pause/crash card never overlaps lobby */
-#mainMenuModal:not(.hidden) ~ #pauseCrashModal,
-body:not(.in-race) #pauseCrashModal.hidden {
-    display: none !important;
-}
-
-</style>
+            /* Ensure pause/crash card never overlaps lobby */
+            #mainMenuModal:not(.hidden)~#pauseCrashModal,
+            body:not(.in-race) #pauseCrashModal.hidden {
+                display: none !important;
+            }
+    </style>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <!-- PeerJS SDK for Multiplayer (Fast WebRTC, No Setup) -->
@@ -2746,12 +2757,16 @@ body:not(.in-race) #pauseCrashModal.hidden {
                 </div>
                 <div class="boot-kicker">NEURAL LINK RACING PROTOCOL v4.8</div>
                 <h1 class="boot-title">CYBER RACER 3D</h1>
-                
+
                 <div class="boot-console" id="bootConsole">
-                    <div class="boot-line"><span>[SYS] INITIALIZING QUANTUM DRIVETRAIN...</span> <span class="boot-ok">OK</span></div>
-                    <div class="boot-line"><span>[NET] SYNCHRONIZING REALTIME HIGHWAY ASSETS...</span> <span class="boot-ok">OK</span></div>
-                    <div class="boot-line"><span>[CAL] CALIBRATING AERO DYNAMICS & DOWNFORCE...</span> <span class="boot-ok">OK</span></div>
-                    <div class="boot-line"><span>[PILOT] SYNCING NEURAL TELEMETRY LINK...</span> <span class="boot-pulse" id="bootLiveStep">ARMED</span></div>
+                    <div class="boot-line"><span>[SYS] INITIALIZING QUANTUM DRIVETRAIN...</span> <span
+                            class="boot-ok">OK</span></div>
+                    <div class="boot-line"><span>[NET] SYNCHRONIZING REALTIME HIGHWAY ASSETS...</span> <span
+                            class="boot-ok">OK</span></div>
+                    <div class="boot-line"><span>[CAL] CALIBRATING AERO DYNAMICS & DOWNFORCE...</span> <span
+                            class="boot-ok">OK</span></div>
+                    <div class="boot-line"><span>[PILOT] SYNCING NEURAL TELEMETRY LINK...</span> <span
+                            class="boot-pulse" id="bootLiveStep">ARMED</span></div>
                 </div>
 
                 <div class="boot-progress-wrap">
@@ -2786,9 +2801,11 @@ body:not(.in-race) #pauseCrashModal.hidden {
                 <div class="lobby-quick-actions">
                     <div class="pilot-badge">
                         <span class="pilot-label">PILOT LINK</span>
-                        <span class="pilot-callsign" id="pilot-callsign">CYBER-01</span> <button class="pilot-edit-btn" id="editPilotNameBtn" title="Edit Callsign">✎</button>
+                        <span class="pilot-callsign" id="pilot-callsign">CYBER-01</span> <button class="pilot-edit-btn"
+                            id="editPilotNameBtn" title="Edit Callsign">✎</button>
                     </div>
-                    <button class="lobby-icon-btn showroom-cam-btn" id="lobbyToggleViewBtn" title="Toggle 3D Showroom Camera">👁️ SHOWROOM</button>
+                    <button class="lobby-icon-btn showroom-cam-btn" id="lobbyToggleViewBtn"
+                        title="Toggle 3D Showroom Camera">👁️ SHOWROOM</button>
                     <button class="lobby-icon-btn" id="menuSettingsBtn" title="Settings">⚙</button>
                     <button class="lobby-icon-btn" id="fullscreenBtn" title="Toggle Fullscreen">⛶</button>
                 </div>
@@ -2880,7 +2897,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
                             stability.
                         </div>
                     </div>
-                
+
                     <!-- Interactive Engine Rev & Showroom Controls -->
                     <button class="rev-test-btn" id="revTestBtn" type="button" title="Test Throttle & Exhaust Sound">
                         <span>⚡</span> TEST ENGINE REV
@@ -2967,7 +2984,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             <div class="crash-hazard-strip"></div>
             <h2 id="pauseCrashTitle" class="pause-crash-title">SYSTEM PAUSED</h2>
             <div id="pauseCrashSubtitle" class="pause-crash-subtitle">Telemetry & Physics On Standby</div>
-            
+
             <div class="crash-telemetry-grid" id="crashTelemetryGrid">
                 <div class="c-stat-box">
                     <span class="c-stat-label">TIME SURVIVED</span>
@@ -2989,17 +3006,22 @@ body:not(.in-race) #pauseCrashModal.hidden {
 
             <div id="pauseCrashText" style="display:none;"></div>
 
-            <div class="btn-group" style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:8px; width:100%;">
+            <div class="btn-group"
+                style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:8px; width:100%;">
                 <button class="action-btn" id="pauseResumeBtn" style="min-width:170px; flex:1;">RESUME RACE</button>
-                <button class="action-btn secondary" id="pauseQuitBtn" style="min-width:170px; flex:1; background:linear-gradient(135deg,#ff0055 0%,#aa0022 100%); border-color:var(--red);">RETURN TO SHOWROOM</button>
+                <button class="action-btn secondary" id="pauseQuitBtn"
+                    style="min-width:170px; flex:1; background:linear-gradient(135deg,#ff0055 0%,#aa0022 100%); border-color:var(--red);">RETURN
+                    TO SHOWROOM</button>
             </div>
             <div style="display:flex; gap:10px; width:100%; justify-content:center; margin-top:4px;">
-                <button class="action-btn secondary small" id="leaderboardBtn" style="border-color: #ffd700; color: #ffd700; font-size:10px; padding:8px 16px;">LEADERBOARD</button>
-                <button class="action-btn secondary small" id="pauseSettingsBtn" style="font-size:10px; padding:8px 16px;">SETTINGS</button>
+                <button class="action-btn secondary small" id="leaderboardBtn"
+                    style="border-color: #ffd700; color: #ffd700; font-size:10px; padding:8px 16px;">LEADERBOARD</button>
+                <button class="action-btn secondary small" id="pauseSettingsBtn"
+                    style="font-size:10px; padding:8px 16px;">SETTINGS</button>
             </div>
         </div>
 
-        
+
 
         <div class="modal-content hidden" id="settingsModal">
             <div class="title-container">
@@ -3080,7 +3102,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             </div>
             <input id="pilot-name-input" type="text" maxlength="16" autocomplete="nickname"
                 placeholder="ENTER CALLSIGN">
-            
+
             <div class="callsign-suggestions">
                 <span class="callsign-tag" data-tag="CYBER-01">CYBER-01</span>
                 <span class="callsign-tag" data-tag="NEO-VIPER">NEO-VIPER</span>
@@ -3680,7 +3702,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
         const junctionLineOffset = 22;
         const vehicleStopCenterOffset = junctionLineOffset + vehicleLength / 2;
 
-        
+
         // ── CYBER BOOT SEQUENCE & SHOWROOM TURNTABLE SYSTEM ──
         let isBootSequenceActive = true;
         let isTurntableActive = true;
@@ -3696,7 +3718,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
         let showroomTurntableGroup = null;
         let showroomRingMesh = null;
 
-        
+
         // ── DEDICATED CYBER GARAGE SHOWROOM & TRACK VISIBILITY SYSTEM ──
         let garageGroup = null;
         let garageStudioLight = null;
@@ -3934,7 +3956,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
                 gain.connect(audioCtx.destination);
                 osc.start(now);
                 osc.stop(now + 0.45);
-            } catch (e) {}
+            } catch (e) { }
         }
 
         function playEngineRevSound() {
@@ -3966,7 +3988,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
 
                 osc.start(now);
                 osc.stop(now + 0.75);
-            } catch (e) {}
+            } catch (e) { }
         }
 
         function startCyberBootSequence() {
@@ -3974,6 +3996,26 @@ body:not(.in-race) #pauseCrashModal.hidden {
             const bootBar = document.getElementById('bootProgressBar');
             const bootPct = document.getElementById('bootPctText');
             const bootStatus = document.getElementById('bootStatusText');
+
+            const completeBoot = () => {
+                const bm = document.getElementById('cyberBootModal');
+                if (bm && !bm.classList.contains('fade-out')) {
+                    bm.classList.add('fade-out');
+                    setTimeout(() => {
+                        bm.remove();
+                        isBootSequenceActive = false;
+                        if (!getPilotName()) {
+                            requestPilotName();
+                        } else {
+                            updatePilotNameDisplay();
+                            if (!isGameRunning) startLobbyMusic();
+                        }
+                    }, 500);
+                }
+            };
+
+            // Hard safety timeout: Dismiss boot screen after 3.2s max if anything ever hangs
+            setTimeout(completeBoot, 3200);
 
             if (!bootModal || !bootBar) {
                 if (!getPilotName()) requestPilotName();
@@ -3990,7 +4032,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             ];
 
             const interval = setInterval(() => {
-                progress += Math.floor(Math.random() * 8) + 4;
+                progress += Math.floor(Math.random() * 8) + 5;
                 if (progress > 100) progress = 100;
 
                 bootBar.style.width = progress + '%';
@@ -4004,21 +4046,9 @@ body:not(.in-race) #pauseCrashModal.hidden {
                 if (progress >= 100) {
                     clearInterval(interval);
                     playBootChime();
-                    setTimeout(() => {
-                        bootModal.classList.add('fade-out');
-                        setTimeout(() => {
-                            bootModal.remove();
-                            isBootSequenceActive = false;
-                            if (!getPilotName()) {
-                                requestPilotName();
-                            } else {
-                                updatePilotNameDisplay();
-                                if (!isGameRunning) startLobbyMusic();
-                            }
-                        }, 600);
-                    }, 400);
+                    setTimeout(completeBoot, 350);
                 }
-            }, 60);
+            }, 50);
         }
 
         function setupShowroomControls() {
@@ -4476,7 +4506,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
                 if (statTime) statTime.innerText = Math.floor(gameTime) + 's';
                 if (statScore) statScore.innerText = Math.floor(score);
                 if (statSpeed) statSpeed.innerText = Math.floor(currentSpeed * 70) + ' KM/H';
-                if (pauseResumeBtn) pauseResumeBtn.innerText = "⚡ RE-DEPLOY / PLAY AGAIN";
+                if (pauseResumeBtn) pauseResumeBtn.innerText = "⚡ PLAY AGAIN";
             }
             settingsModal.classList.add('hidden');
             screenOverlay.classList.remove('hidden');
@@ -5699,7 +5729,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             // Main body
             const body = new THREE.Mesh(new THREE.BoxGeometry(2.62, 2.60, 7.55), busMat);
             body.position.set(0, 1.62, 0);
-            if (typeof isTraffic !== "undefined" || thisIsVehicle) body.castShadow = true;
+            body.castShadow = true;
             group.add(body);
 
             // Flat roof
@@ -5838,7 +5868,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             // ── Main body (tall off-road profile) ───────────────────────
             const body = new THREE.Mesh(new THREE.BoxGeometry(1.95, 1.38, 3.85), bodyMat);
             body.position.set(0, 0.98, 0);
-            if (typeof isTraffic !== "undefined" || thisIsVehicle) body.castShadow = true;
+            body.castShadow = true;
             group.add(body);
 
             // Front fender flares
@@ -7323,7 +7353,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             // Torso (Holstein black & white spotted)
             const body = new THREE.Mesh(new THREE.BoxGeometry(1.35, 1.15, 2.20), whiteMat);
             body.position.y = 1.30;
-            if (typeof isTraffic !== "undefined" || thisIsVehicle) body.castShadow = true;
+            body.castShadow = true;
             cow.add(body);
 
             // Random black patches on torso
@@ -7501,7 +7531,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             // Muscular torso
             const body = new THREE.Mesh(new THREE.BoxGeometry(1.25, 1.15, 2.35), coatMat);
             body.position.y = 1.62;
-            if (typeof isTraffic !== "undefined" || thisIsVehicle) body.castShadow = true;
+            body.castShadow = true;
             horse.add(body);
 
             // Hindquarters curve
@@ -8187,15 +8217,15 @@ body:not(.in-race) #pauseCrashModal.hidden {
 
             // Defined staggered offsets and lane rotations for instant race feel
             const spawnPlan = [
-                { dist: 45,  lane: -5 },
-                { dist: 78,  lane:  5 },
-                { dist: 112, lane:  0 },
+                { dist: 45, lane: -5 },
+                { dist: 78, lane: 5 },
+                { dist: 112, lane: 0 },
                 { dist: 148, lane: -5 },
-                { dist: 184, lane:  5 },
-                { dist: 220, lane:  0 },
+                { dist: 184, lane: 5 },
+                { dist: 220, lane: 0 },
                 { dist: 260, lane: -5 },
-                { dist: 300, lane:  5 },
-                { dist: 340, lane:  0 }
+                { dist: 300, lane: 5 },
+                { dist: 340, lane: 0 }
             ];
 
             for (let i = 0; i < count && i < spawnPlan.length; i++) {
@@ -9112,7 +9142,7 @@ body:not(.in-race) #pauseCrashModal.hidden {
             settingsModal.classList.add('hidden');
             mainMenuModal.classList.remove('hidden');
             screenOverlay.classList.remove('hidden');
-            
+
             // Re-render and ensure loop keeps running smoothly
             lastFrameTime = performance.now();
             if (animFrameId === null) gameLoop();
@@ -9720,8 +9750,14 @@ body:not(.in-race) #pauseCrashModal.hidden {
             });
         }
 
-        init();
-        gameLoop();
+        try {
+            init();
+            gameLoop();
+        } catch (initErr) {
+            console.error('Cyber Racer initialization error:', initErr);
+            const bootModal = document.getElementById('cyberBootModal');
+            if (bootModal) bootModal.remove();
+        }
 
         // ═══════════════════════════════════════════════════════════════════
         // ██████████████  MULTIPLAYER SYSTEM (PeerJS WebRTC)  ██████████████
