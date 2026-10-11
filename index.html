@@ -2711,7 +2711,7 @@
                         <div class="lmc-left">
                             <div class="lmc-badge">1v1 ONLINE</div>
                             <div class="lmc-title">⚡ MULTIPLAYER BATTLE</div>
-                            <div class="lmc-desc">Race a friend in real-time via WebRTC room code</div>
+                            <div class="lmc-desc">Race friends in real-time with shared city & traffic</div>
                         </div>
                         <div class="lmc-arrow">→</div>
                     </div>
@@ -4949,8 +4949,8 @@
 
             // Re-render immediately so the change is instant
             if (!isGameRunning && renderer && scene && camera) {
-                camera.position.set(0, 3.8, 8.5);
-                camera.rotation.set(-0.22, 0, 0);
+                camera.position.set(0, 1.6, 5.5);
+                camera.lookAt(0, 0.45, 0);
                 renderer.render(scene, camera);
             }
         }
@@ -9155,13 +9155,13 @@
                 }
                 renderer.render(scene, camera);
             } else if (!isGameRunning) {
-                // In lobby: vehicle sits stationary facing forward on the highway, ready to race
+                // Showroom lobby: 3D vehicle rotates gently in the center viewport
                 if (playerCar) {
-                    playerCar.position.set(0, 0, 0);
-                    playerCar.rotation.set(0, 0, 0);
+                    playerCar.position.set(0, 0.05, 0);
+                    playerCar.rotation.y += 0.008;
                 }
-                camera.position.set(0, 3.8, 8.5);
-                camera.rotation.set(-0.22, 0, 0);
+                camera.position.set(0, 1.6, 5.5);
+                camera.lookAt(0, 0.45, 0);
                 renderer.render(scene, camera);
             }
         }
