@@ -3003,8 +3003,7 @@
                 style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:8px; width:100%;">
                 <button class="action-btn" id="pauseResumeBtn" style="min-width:170px; flex:1;">RESUME RACE</button>
                 <button class="action-btn secondary" id="pauseQuitBtn"
-                    style="min-width:170px; flex:1; background:linear-gradient(135deg,#ff0055 0%,#aa0022 100%); border-color:var(--red);">RETURN
-                    TO SHOWROOM</button>
+                    style="min-width:170px; flex:1; background:linear-gradient(135deg,#ff0055 0%,#aa0022 100%); border-color:var(--red);">LOBBY</button>
             </div>
             <div style="display:flex; gap:10px; width:100%; justify-content:center; margin-top:4px;">
                 <button class="action-btn secondary small" id="leaderboardBtn"
@@ -4591,7 +4590,7 @@
                 if (statTime) statTime.innerText = Math.floor(gameTime) + 's';
                 if (statScore) statScore.innerText = Math.floor(score);
                 if (statSpeed) statSpeed.innerText = Math.floor(currentSpeed * 70) + ' KM/H';
-                if (pauseResumeBtn) pauseResumeBtn.innerText = "⚡ PLAY AGAIN";
+                if (pauseResumeBtn) pauseResumeBtn.innerText = "PLAY AGAIN";
             }
             settingsModal.classList.add('hidden');
             screenOverlay.classList.remove('hidden');
