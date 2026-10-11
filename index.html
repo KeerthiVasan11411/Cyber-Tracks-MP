@@ -2799,13 +2799,6 @@
                     </div>
                 </div>
                 <div class="lobby-quick-actions">
-                    <div class="pilot-badge">
-                        <span class="pilot-label">PILOT LINK</span>
-                        <span class="pilot-callsign" id="pilot-callsign">CYBER-01</span> <button class="pilot-edit-btn"
-                            id="editPilotNameBtn" title="Edit Callsign">✎</button>
-                    </div>
-                    <button class="lobby-icon-btn showroom-cam-btn" id="lobbyToggleViewBtn"
-                        title="Toggle 3D Showroom Camera">👁️ SHOWROOM</button>
                     <button class="lobby-icon-btn" id="menuSettingsBtn" title="Settings">⚙</button>
                     <button class="lobby-icon-btn" id="fullscreenBtn" title="Toggle Fullscreen">⛶</button>
                 </div>
@@ -2816,8 +2809,8 @@
                 <!-- LEFT DECK: VEHICLE GARAGE & TELEMETRY -->
                 <aside class="lobby-deck deck-left" id="vehicleLobbyContainer">
                     <div class="deck-header">
-                        <div class="deck-tag">GARAGE SHOWROOM</div>
-                        <div class="deck-title">CHOOSE YOUR RIDE</div>
+                        <div class="deck-tag">CYBER GARAGE // TUNING BAY</div>
+                        <div class="deck-title">VEHICLE CONFIGURATOR</div>
                     </div>
 
                     <!-- Vehicle Switcher Cards -->
@@ -2911,7 +2904,7 @@
                 <!-- RIGHT DECK: MISSION DEPLOYMENT & MODES -->
                 <aside class="lobby-deck deck-right">
                     <div class="deck-header">
-                        <div class="deck-tag">FLIGHT DECK</div>
+                        <div class="deck-tag">RACE CONTROL // PIT LANE</div>
                         <div class="deck-title">DEPLOY MISSION</div>
                     </div>
 
@@ -3104,10 +3097,10 @@
                 placeholder="ENTER CALLSIGN">
 
             <div class="callsign-suggestions">
-                <span class="callsign-tag" data-tag="CYBER-01">CYBER-01</span>
-                <span class="callsign-tag" data-tag="NEO-VIPER">NEO-VIPER</span>
-                <span class="callsign-tag" data-tag="PHANTOM-9">PHANTOM-9</span>
-                <span class="callsign-tag" data-tag="CHRONO">CHRONO</span>
+                <span class="callsign-tag" data-tag="GAYSHOORE">GAYSHOORE</span>
+                <span class="callsign-tag" data-tag="GAYSAV">GAYSAV</span>
+                <span class="callsign-tag" data-tag="LOHITHAAR">LOHITHAAR</span>
+                <span class="callsign-tag" data-tag="VASS">VASS</span>
             </div>
 
             <div id="pilot-name-error"
@@ -3633,17 +3626,14 @@
         }
 
         let trafficCars = [];
-        let crossTrafficCars = [];
         let _npcIdCounter = 0;
         let _clientNpcMeshes = {};        // id → Three.js mesh (client-side ghost NPCs)
         let roadSegments = [];
-        let junctions = [];
 
         let streetLights = [];
         let roadBridges = [];
         let roadTrees = [];
         let pedestrians = [];
-        let junctionPedestrians = [];
         let sideBuildings = [];
 
         let smokeParticles = [];
@@ -3699,19 +3689,17 @@
         const vehicleLength = 4;
         const requiredVehicleGap = 4;
         const minimumVehicleCenterDistance = vehicleLength + requiredVehicleGap;
-        const junctionLineOffset = 22;
-        const vehicleStopCenterOffset = junctionLineOffset + vehicleLength / 2;
 
 
         // ── CYBER BOOT SEQUENCE & SHOWROOM TURNTABLE SYSTEM ──
         let isBootSequenceActive = true;
         let isTurntableActive = true;
-        let showroomAngle = 0.8;
-        let showroomElevation = 1.7;
-        let showroomDistance = 6.4;
-        let targetShowroomAngle = 0.8;
-        let targetShowroomElevation = 1.7;
-        let targetShowroomDistance = 6.4;
+        let showroomAngle = 0.65;
+        let showroomElevation = 2.25;
+        let showroomDistance = 5.6;
+        let targetShowroomAngle = 0.65;
+        let targetShowroomElevation = 2.25;
+        let targetShowroomDistance = 5.6;
         let isShowroomDragging = false;
         let showroomLastPointerX = 0;
         let showroomLastPointerY = 0;
@@ -3744,9 +3732,6 @@
             if (typeof pedestrians !== 'undefined' && pedestrians) {
                 pedestrians.forEach(p => { if (p) p.visible = visible; });
             }
-            if (typeof junctions !== 'undefined' && junctions) {
-                junctions.forEach(j => { if (j) j.visible = visible; });
-            }
             if (typeof sunMesh !== 'undefined' && sunMesh) sunMesh.visible = visible;
             if (typeof moonMesh !== 'undefined' && moonMesh) moonMesh.visible = visible;
             if (typeof starFieldMesh !== 'undefined' && starFieldMesh) starFieldMesh.visible = visible;
@@ -3761,98 +3746,208 @@
             }
             garageGroup = new THREE.Group();
 
-            // 1. High-Tech Reflective Carbon/Gloss Showroom Floor
-            const floorGeo = new THREE.PlaneGeometry(42, 42);
+            // 1. High-Tech Epoxy Workshop Floor with Grid & Markings
+            const floorGeo = new THREE.PlaneGeometry(50, 50);
             floorGeo.rotateX(-Math.PI / 2);
             const floorMat = new THREE.MeshStandardMaterial({
-                color: 0x060914,
-                roughness: 0.18,
-                metalness: 0.88
+                color: 0x090d19,
+                roughness: 0.22,
+                metalness: 0.85
             });
             const floor = new THREE.Mesh(floorGeo, floorMat);
             floor.position.y = -0.01;
+            floor.receiveShadow = true;
             garageGroup.add(floor);
 
-            // Subtle neon floor grid perimeter
-            const gridBorderMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, transparent: true, opacity: 0.35 });
-            const gridBorder = new THREE.Mesh(new THREE.RingGeometry(9.5, 9.6, 64), gridBorderMat);
-            gridBorder.rotateX(-Math.PI / 2);
-            gridBorder.position.y = 0.005;
-            garageGroup.add(gridBorder);
+            // Workshop Bay Yellow/Black Hazard Border Lines
+            const hazardMat = new THREE.MeshBasicMaterial({ color: 0xffaa00, transparent: true, opacity: 0.85 });
+            const bayWidth = 7.4, bayLength = 9.8;
+            [-bayWidth / 2, bayWidth / 2].forEach(x => {
+                const border = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.02, bayLength), hazardMat);
+                border.position.set(x, 0.005, 0);
+                garageGroup.add(border);
+            });
+            [-bayLength / 2, bayLength / 2].forEach(z => {
+                const border = new THREE.Mesh(new THREE.BoxGeometry(bayWidth, 0.02, 0.12), hazardMat);
+                border.position.set(0, 0.005, z);
+                garageGroup.add(border);
+            });
 
-            // 2. High-Tech Garage Walls (Back & Side Hangar Panels)
+            // 2. Automotive Twin-Post Hydraulic Vehicle Lift
+            const liftSteelMat = new THREE.MeshStandardMaterial({ color: 0x182030, roughness: 0.35, metalness: 0.85 });
+            const liftYellowMat = new THREE.MeshStandardMaterial({ color: 0xffaa00, roughness: 0.35, metalness: 0.5 });
+            const liftLedMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+
+            // Twin vertical hydraulic columns
+            [-2.7, 2.7].forEach(x => {
+                const column = new THREE.Mesh(new THREE.BoxGeometry(0.42, 4.4, 0.48), liftYellowMat);
+                column.position.set(x, 2.2, 0);
+                column.castShadow = true;
+                garageGroup.add(column);
+
+                // Column base plate
+                const base = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.08, 0.85), liftSteelMat);
+                base.position.set(x, 0.04, 0);
+                garageGroup.add(base);
+
+                // Hydraulic cylinder sleeve
+                const cyl = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 3.8, 16), liftSteelMat);
+                cyl.position.set(x, 2.1, 0.18);
+                garageGroup.add(cyl);
+
+                // Safety status LED beacon on column top
+                const led = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.22, 0.18), liftLedMat);
+                led.position.set(x, 4.45, 0);
+                garageGroup.add(led);
+
+                // Lift arm runner
+                const arm = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.14, 2.8), liftSteelMat);
+                arm.position.set(x * 0.72, 0.16, 0);
+                garageGroup.add(arm);
+            });
+
+            // Dual Drive-on Runner Ramps beneath tires
+            [-1.15, 1.15].forEach(x => {
+                const runner = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.08, 5.4), liftSteelMat);
+                runner.position.set(x, 0.04, 0);
+                runner.receiveShadow = true;
+                garageGroup.add(runner);
+
+                // Ramp front wheel-stop
+                const stop = new THREE.Mesh(new THREE.BoxGeometry(0.55, 0.18, 0.14), liftYellowMat);
+                stop.position.set(x, 0.09, -2.65);
+                garageGroup.add(stop);
+            });
+
+            // 3. Garage Walls (Heavy Industrial Hangar)
             const wallMat = new THREE.MeshStandardMaterial({
-                color: 0x070c1a,
-                roughness: 0.6,
-                metalness: 0.5
+                color: 0x0a0f1d,
+                roughness: 0.55,
+                metalness: 0.65
             });
 
             // Back Wall
-            const backWall = new THREE.Mesh(new THREE.PlaneGeometry(42, 14), wallMat);
-            backWall.position.set(0, 7, -18);
+            const backWall = new THREE.Mesh(new THREE.PlaneGeometry(48, 16), wallMat);
+            backWall.position.set(0, 8, -16);
+            backWall.receiveShadow = true;
             garageGroup.add(backWall);
 
             // Left Wall
-            const leftWall = new THREE.Mesh(new THREE.PlaneGeometry(42, 14), wallMat);
+            const leftWall = new THREE.Mesh(new THREE.PlaneGeometry(48, 16), wallMat);
             leftWall.rotation.y = Math.PI / 2;
-            leftWall.position.set(-18, 7, 0);
+            leftWall.position.set(-16, 8, 0);
+            leftWall.receiveShadow = true;
             garageGroup.add(leftWall);
 
             // Right Wall
-            const rightWall = new THREE.Mesh(new THREE.PlaneGeometry(42, 14), wallMat);
+            const rightWall = new THREE.Mesh(new THREE.PlaneGeometry(48, 16), wallMat);
             rightWall.rotation.y = -Math.PI / 2;
-            rightWall.position.set(18, 7, 0);
+            rightWall.position.set(16, 8, 0);
+            rightWall.receiveShadow = true;
             garageGroup.add(rightWall);
 
-            // Garage Ceiling
-            const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(42, 42), new THREE.MeshBasicMaterial({ color: 0x030610 }));
+            // Ceiling
+            const ceiling = new THREE.Mesh(new THREE.PlaneGeometry(48, 48), new THREE.MeshBasicMaterial({ color: 0x040711 }));
             ceiling.rotation.x = Math.PI / 2;
-            ceiling.position.y = 14;
+            ceiling.position.y = 16;
             garageGroup.add(ceiling);
 
-            // 3. Neon LED Architectural Lighting
-            const neonCyanMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
-            const neonAmberMat = new THREE.MeshBasicMaterial({ color: 0xff3366 });
+            // 4. Back Wall Roll-Up Sectional Bay Shutter Door
+            const shutterDoorMat = new THREE.MeshStandardMaterial({ color: 0x0d1527, roughness: 0.45, metalness: 0.8 });
+            const shutterDoor = new THREE.Mesh(new THREE.BoxGeometry(16, 9.5, 0.2), shutterDoorMat);
+            shutterDoor.position.set(0, 4.8, -15.85);
+            garageGroup.add(shutterDoor);
 
-            // Back wall horizontal neon strips
-            const ledBack1 = new THREE.Mesh(new THREE.BoxGeometry(36, 0.12, 0.08), neonCyanMat);
-            ledBack1.position.set(0, 2.6, -17.9);
-            garageGroup.add(ledBack1);
+            // Shutter Door Frame with Glowing Cyan Header Outline
+            const doorFrameMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff });
+            const doorHeaderNeon = new THREE.Mesh(new THREE.BoxGeometry(16.4, 0.14, 0.12), doorFrameMat);
+            doorHeaderNeon.position.set(0, 9.6, -15.75);
+            garageGroup.add(doorHeaderNeon);
 
-            const ledBack2 = new THREE.Mesh(new THREE.BoxGeometry(26, 0.08, 0.08), neonAmberMat);
-            ledBack2.position.set(0, 8.5, -17.9);
-            garageGroup.add(ledBack2);
-
-            // Vertical neon light pillars
-            [-12, -6, 6, 12].forEach(x => {
-                const pillarStrip = new THREE.Mesh(new THREE.BoxGeometry(0.14, 10, 0.08), neonCyanMat);
-                pillarStrip.position.set(x, 5, -17.85);
-                garageGroup.add(pillarStrip);
+            [-8.2, 8.2].forEach(x => {
+                const vertFrame = new THREE.Mesh(new THREE.BoxGeometry(0.14, 9.6, 0.12), doorFrameMat);
+                vertFrame.position.set(x, 4.8, -15.75);
+                garageGroup.add(vertFrame);
             });
 
-            // 4. Overhead Studio Softbox Light Frame
-            const softboxLightMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-            const softbox = new THREE.Mesh(new THREE.BoxGeometry(8, 0.1, 14), softboxLightMat);
-            softbox.position.set(0, 11.8, 0);
-            garageGroup.add(softbox);
+            // 5. Professional Mechanic Workshop Equipment
+            // Tool Cabinet Chest (Snap-on Red style)
+            const toolChestMat = new THREE.MeshStandardMaterial({ color: 0xcc1122, roughness: 0.35, metalness: 0.65 });
+            const toolChest = new THREE.Mesh(new THREE.BoxGeometry(2.4, 1.6, 1.0), toolChestMat);
+            toolChest.position.set(-6.2, 0.8, -7.5);
+            toolChest.castShadow = true;
+            garageGroup.add(toolChest);
 
-            const sbBorder = new THREE.Mesh(new THREE.BoxGeometry(8.4, 0.18, 14.4), new THREE.MeshBasicMaterial({ color: 0x00f0ff }));
-            sbBorder.position.set(0, 11.9, 0);
-            garageGroup.add(sbBorder);
+            // Tool Chest Top Rubber Mat & Handles
+            const chestTop = new THREE.Mesh(new THREE.BoxGeometry(2.48, 0.08, 1.06), liftSteelMat);
+            chestTop.position.set(-6.2, 1.64, -7.5);
+            garageGroup.add(chestTop);
 
-            // 5. Studio Showroom Lights
-            garageStudioLight = new THREE.SpotLight(0xffffff, 2.6, 35, Math.PI / 3.4, 0.45, 1.2);
-            garageStudioLight.position.set(0, 11, 2);
-            garageStudioLight.target.position.set(0, 0.4, 0);
+            // Diagnostic Telemetry Workstation Desk
+            const deskMat = new THREE.MeshStandardMaterial({ color: 0x141e30, roughness: 0.4, metalness: 0.8 });
+            const desk = new THREE.Mesh(new THREE.BoxGeometry(2.6, 1.1, 1.1), deskMat);
+            desk.position.set(6.2, 0.55, -7.5);
+            desk.castShadow = true;
+            garageGroup.add(desk);
+
+            // Holographic Telemetry Screen on desk
+            const screenGlowMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, transparent: true, opacity: 0.85 });
+            const diagScreen = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.95, 0.05), screenGlowMat);
+            diagScreen.position.set(6.2, 1.65, -7.4);
+            garageGroup.add(diagScreen);
+
+            // Stack of 3 Racing Slick Tires in garage corner
+            const tireMat = new THREE.MeshStandardMaterial({ color: 0x111114, roughness: 0.88, metalness: 0.1 });
+            for (let ti = 0; ti < 3; ti++) {
+                const tire = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 0.38, 20), tireMat);
+                tire.position.set(-6.2, 0.19 + ti * 0.38, -3.2);
+                tire.castShadow = true;
+                garageGroup.add(tire);
+            }
+
+            // Blue Compressed Nitrogen Cylinders
+            const tankMat = new THREE.MeshStandardMaterial({ color: 0x0066cc, roughness: 0.25, metalness: 0.75 });
+            [-0.35, 0.35].forEach((dx, idx) => {
+                const tank = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 1.7, 16), tankMat);
+                tank.position.set(6.4 + dx, 0.85, -3.2);
+                tank.castShadow = true;
+                garageGroup.add(tank);
+            });
+
+            // 6. Overhead Industrial Ceiling Trusses & Work Light Fixtures
+            const trussMat = new THREE.MeshStandardMaterial({ color: 0x121b2d, roughness: 0.6, metalness: 0.85 });
+            [-4, 4].forEach(z => {
+                const beam = new THREE.Mesh(new THREE.BoxGeometry(32, 0.25, 0.35), trussMat);
+                beam.position.set(0, 9.2, z);
+                garageGroup.add(beam);
+            });
+
+            // High-Output Overhead LED Mechanic Shop Softboxes
+            const shopLedMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+            const overheadBox1 = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.12, 7.8), shopLedMat);
+            overheadBox1.position.set(0, 9.1, 0);
+            garageGroup.add(overheadBox1);
+
+            const overheadBorder = new THREE.Mesh(new THREE.BoxGeometry(4.5, 0.18, 8.1), new THREE.MeshBasicMaterial({ color: 0x00f0ff }));
+            overheadBorder.position.set(0, 9.15, 0);
+            garageGroup.add(overheadBorder);
+
+            // 7. Studio Showroom Lights (High-Luminance Multi-Point System)
+            garageStudioLight = new THREE.SpotLight(0xffffff, 3.8, 32, Math.PI / 3.0, 0.35, 1.2);
+            garageStudioLight.position.set(0, 9.0, 1.5);
+            garageStudioLight.target.position.set(0, 0.45, 0);
+            garageStudioLight.castShadow = true;
             garageGroup.add(garageStudioLight);
             garageGroup.add(garageStudioLight.target);
 
-            garageFillLight = new THREE.PointLight(0x00f0ff, 1.4, 25);
-            garageFillLight.position.set(-6, 3.5, 4);
+            // Front-Left Cyber Cyan Fill Light
+            garageFillLight = new THREE.PointLight(0x00f0ff, 2.4, 26);
+            garageFillLight.position.set(-5.5, 3.8, 3.5);
             garageGroup.add(garageFillLight);
 
-            garageRimLight = new THREE.PointLight(0xff0055, 1.2, 22);
-            garageRimLight.position.set(6, 3, -6);
+            // Rear-Right Amber Specular Rim Light
+            garageRimLight = new THREE.PointLight(0xffaa00, 2.2, 24);
+            garageRimLight.position.set(5.5, 3.5, -4.5);
             garageGroup.add(garageRimLight);
 
             scene.add(garageGroup);
@@ -3863,9 +3958,13 @@
             if (garageGroup) garageGroup.visible = true;
             if (showroomTurntableGroup) showroomTurntableGroup.visible = true;
             if (scene) {
-                scene.background = new THREE.Color(0x030612);
-                scene.fog = new THREE.Fog(0x030612, 24, 75);
+                scene.background = new THREE.Color(0x060914);
+                scene.fog = new THREE.Fog(0x060914, 22, 60);
             }
+            if (ambientLight) ambientLight.intensity = 1.15; // Bright, rich illumination in garage
+            targetShowroomAngle = 0.65;
+            targetShowroomElevation = 2.25;
+            targetShowroomDistance = 5.6;
             document.body.classList.remove('in-race');
             const touchControls = document.getElementById('touch-controls');
             if (touchControls) touchControls.classList.add('hidden');
@@ -3874,6 +3973,7 @@
         function exitGarageToRaceMode() {
             if (garageGroup) garageGroup.visible = false;
             if (showroomTurntableGroup) showroomTurntableGroup.visible = false;
+            if (ambientLight) ambientLight.intensity = 1.2;
             setTrackVisibility(true);
             document.body.classList.add('in-race');
             const toggleTouch = document.getElementById('toggleTouch');
@@ -3894,43 +3994,28 @@
             showroomTurntableGroup = new THREE.Group();
             showroomTurntableGroup.position.set(0, 0.02, 0);
 
-            // Inner glowing hologram ring
-            const ringGeo1 = new THREE.RingGeometry(2.35, 2.45, 64);
+            // Polished carbon turntable base disk
+            const diskGeo = new THREE.CylinderGeometry(3.1, 3.1, 0.04, 32);
+            const diskMat = new THREE.MeshStandardMaterial({
+                color: 0x080e1c,
+                metalness: 0.90,
+                roughness: 0.20
+            });
+            const diskMesh = new THREE.Mesh(diskGeo, diskMat);
+            diskMesh.position.y = 0.02;
+            diskMesh.receiveShadow = true;
+            showroomTurntableGroup.add(diskMesh);
+
+            // Glowing neon turntable rim ring
+            const ringGeo1 = new THREE.RingGeometry(2.95, 3.08, 64);
             ringGeo1.rotateX(-Math.PI / 2);
             const ringMat1 = new THREE.MeshBasicMaterial({
                 color: (typeof playerCustomColor !== 'undefined' && playerCustomColor !== null) ? playerCustomColor : 0x00f0ff,
-                side: THREE.DoubleSide,
-                transparent: true,
-                opacity: 0.85
+                side: THREE.DoubleSide
             });
             showroomRingMesh = new THREE.Mesh(ringGeo1, ringMat1);
+            showroomRingMesh.position.y = 0.045;
             showroomTurntableGroup.add(showroomRingMesh);
-
-            // Outer dashed ring
-            const ringGeo2 = new THREE.RingGeometry(3.05, 3.12, 64);
-            ringGeo2.rotateX(-Math.PI / 2);
-            const ringMat2 = new THREE.MeshBasicMaterial({
-                color: 0x00f0ff,
-                side: THREE.DoubleSide,
-                transparent: true,
-                opacity: 0.45
-            });
-            const outerRing = new THREE.Mesh(ringGeo2, ringMat2);
-            showroomTurntableGroup.add(outerRing);
-
-            // Dark reflective pedestal base
-            const diskGeo = new THREE.CircleGeometry(3.2, 64);
-            diskGeo.rotateX(-Math.PI / 2);
-            const diskMat = new THREE.MeshStandardMaterial({
-                color: 0x060c1c,
-                metalness: 0.92,
-                roughness: 0.18,
-                transparent: true,
-                opacity: 0.8
-            });
-            const diskMesh = new THREE.Mesh(diskGeo, diskMat);
-            diskMesh.position.y = -0.01;
-            showroomTurntableGroup.add(diskMesh);
 
             scene.add(showroomTurntableGroup);
         }
@@ -5541,11 +5626,14 @@
             playerCar.rotation.set(0, 0, 0);
             scene.add(playerCar);
             updateFirstPersonVehicleVisibility();
+            if (typeof updateShowroomPedestalColor === 'function') updateShowroomPedestalColor(activeColor);
 
             // Re-render immediately so the change is instant
             if (!isGameRunning && renderer && scene && camera) {
-                camera.position.set(0, 3.8, 8.5);
-                camera.rotation.set(-0.22, 0, 0);
+                camera.position.x = Math.sin(showroomAngle) * showroomDistance;
+                camera.position.z = Math.cos(showroomAngle) * showroomDistance;
+                camera.position.y = showroomElevation;
+                camera.lookAt(0, 0.75, 0);
                 renderer.render(scene, camera);
             }
         }
@@ -6500,235 +6588,21 @@
             return sharedAsphaltMat;
         }
 
-        // --- JUNCTION & TRAFFIC LIGHT SYSTEM ---
-        function createJunctionSegment(zPos) {
-            const segmentGroup = new THREE.Group();
-            segmentGroup.position.z = zPos;
-            segmentGroup.userData.isJunction = true;
-
-            const roadGeo = new THREE.PlaneGeometry(roadWidth, segmentLength);
-            const roadMat = getRealisticAsphaltMaterial();
-            const roadMesh = new THREE.Mesh(roadGeo, roadMat);
-            roadMesh.rotation.x = -Math.PI / 2;
-            roadMesh.receiveShadow = true;
-            segmentGroup.add(roadMesh);
-
-            const crossRoadGeo = new THREE.PlaneGeometry(100, roadWidth);
-            const crossRoadMesh = new THREE.Mesh(crossRoadGeo, roadMat);
-            crossRoadMesh.rotation.x = -Math.PI / 2;
-            crossRoadMesh.position.set(0, 0.035, 0);
-            crossRoadMesh.receiveShadow = true;
-            segmentGroup.add(crossRoadMesh);
-
-            const grassGeo = new THREE.PlaneGeometry(80, segmentLength);
-            const grassMat = new THREE.MeshStandardMaterial({ color: 0x1e3f20, roughness: 0.95, metalness: 0.05 });
-
-            const leftGrass = new THREE.Mesh(grassGeo, grassMat);
-            leftGrass.rotation.x = -Math.PI / 2;
-            leftGrass.position.set(-roadWidth / 2 - 40, -0.01, 0);
-            leftGrass.receiveShadow = true;
-
-            const rightGrass = new THREE.Mesh(grassGeo, grassMat);
-            rightGrass.rotation.x = -Math.PI / 2;
-            rightGrass.position.set(roadWidth / 2 + 40, -0.01, 0);
-            rightGrass.receiveShadow = true;
-
-            segmentGroup.add(leftGrass, rightGrass);
-            addRoadCurbs(segmentGroup, true);
-            addJunctionCornerFillets(segmentGroup);
-            addJunctionMarkings(segmentGroup);
-
-
-
-            scene.add(segmentGroup);
-            return segmentGroup;
-        }
-
-        // Rounded "curvy" curb fillet that smoothly connects the two straight curb
-        // lines meeting at each of the four junction corners (like a real street
-        // corner radius), replacing the sharp 90-degree join.
-        function addJunctionCornerFillets(segmentGroup) {
-            const curbMat = new THREE.MeshStandardMaterial({ color: 0x77736b, roughness: 0.9, metalness: 0.05, side: THREE.DoubleSide });
-            const R = 2.4;
-            const curbDepth = 0.55;
-            const curbHeight = 0.3;
-            const outerR = R + curbDepth;
-            const roadHalf = roadWidth / 2;
-
-            const quadrants = [
-                { qx: 1, qz: 1 },
-                { qx: -1, qz: 1 },
-                { qx: 1, qz: -1 },
-                { qx: -1, qz: -1 }
-            ];
-
-            const shapeAngles = {
-                '1,1': [0.5 * Math.PI, Math.PI],
-                '-1,1': [0, 0.5 * Math.PI],
-                '1,-1': [Math.PI, 1.5 * Math.PI],
-                '-1,-1': [1.5 * Math.PI, 2 * Math.PI]
-            };
-
-            quadrants.forEach(({ qx, qz }) => {
-                const ccx = qx * (roadHalf + R);
-                const ccz = qz * (roadHalf + R);
-                const scx = ccx;
-                const scy = -ccz;
-                const [startAngle, endAngle] = shapeAngles[`${qx},${qz}`];
-
-                const shape = new THREE.Shape();
-                shape.absarc(scx, scy, outerR, startAngle, endAngle, false);
-                const innerEndX = scx + R * Math.cos(endAngle);
-                const innerEndY = scy + R * Math.sin(endAngle);
-                shape.lineTo(innerEndX, innerEndY);
-                shape.absarc(scx, scy, R, endAngle, startAngle, true);
-                shape.closePath();
-
-                const geo = new THREE.ExtrudeGeometry(shape, { depth: curbHeight, bevelEnabled: false });
-                geo.rotateX(-Math.PI / 2);
-                const mesh = new THREE.Mesh(geo, curbMat);
-                // mesh.castShadow = false;
-                mesh.receiveShadow = true;
-                segmentGroup.add(mesh);
-            });
-        }
-
-        function addJunctionMarkings(segmentGroup) {
-            const crosswalkMat = new THREE.MeshBasicMaterial({ color: 0xf2f4f5 });
-            const laneMarkMat = new THREE.MeshBasicMaterial({ color: 0xf7f7f2 });
-            const edgeLineMat = new THREE.MeshBasicMaterial({ color: 0xd5b84a });
-            const sidewalkMat = new THREE.MeshStandardMaterial({ color: 0xb7bdc1, roughness: 0.9 });
-            const crosswalkOffset = 11.6;
-            const stripeCount = 10;
-            const stripeGap = 0.66;
-            const stripeWidth = 0.48;
-            const stripeHeight = 0.035;
-
-            [-1, 1].forEach(side => {
-                [-1, 1].forEach(corner => {
-                    const sidewalk = new THREE.Mesh(new THREE.BoxGeometry(12, 0.08, 12), sidewalkMat);
-                    sidewalk.position.set(side * 14, 0.04, corner * 14);
-                    sidewalk.receiveShadow = true;
-                    segmentGroup.add(sidewalk);
-                });
-
-                for (let index = 0; index < stripeCount; index++) {
-                    const offset = (index - (stripeCount - 1) / 2) * stripeGap;
-                    const mainStripe = new THREE.Mesh(
-                        new THREE.BoxGeometry(roadWidth - 1.2, stripeHeight, stripeWidth),
-                        crosswalkMat
-                    );
-                    mainStripe.position.set(offset, 0.14, side * crosswalkOffset);
-                    segmentGroup.add(mainStripe);
-
-                    const crossStripe = new THREE.Mesh(
-                        new THREE.BoxGeometry(stripeWidth, stripeHeight, roadWidth - 1.2),
-                        crosswalkMat
-                    );
-                    crossStripe.position.set(side * crosswalkOffset, 0.14, offset);
-                    segmentGroup.add(crossStripe);
-                }
-            });
-
-            [-1, 1].forEach(side => {
-                [-1, 1].forEach(axis => {
-                    const mainEdge = new THREE.Mesh(new THREE.PlaneGeometry(0.12, 18), edgeLineMat);
-                    mainEdge.rotation.x = -Math.PI / 2;
-                    mainEdge.position.set(side * (roadWidth / 2 - 0.35), 0.08, axis * 18);
-                    segmentGroup.add(mainEdge);
-
-                    const crossEdge = new THREE.Mesh(new THREE.PlaneGeometry(18, 0.12), edgeLineMat);
-                    crossEdge.rotation.x = -Math.PI / 2;
-                    crossEdge.position.set(axis * 18, 0.08, side * (roadWidth / 2 - 0.35));
-                    segmentGroup.add(crossEdge);
-                });
-
-                for (let index = -2; index <= 2; index++) {
-                    const mainDash = new THREE.Mesh(new THREE.PlaneGeometry(0.16, 2.4), laneMarkMat);
-                    mainDash.rotation.x = -Math.PI / 2;
-                    mainDash.position.set(0, 0.08, side * (27 + index * 5));
-                    segmentGroup.add(mainDash);
-
-                    const crossDash = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 0.16), laneMarkMat);
-                    crossDash.rotation.x = -Math.PI / 2;
-                    crossDash.position.set(side * (27 + index * 5), 0.08, 0);
-                    segmentGroup.add(crossDash);
-                }
-            });
-        }
-
-        function addJunctionStopLines(segmentGroup) {
-            const stopLineMat = new THREE.MeshBasicMaterial({ color: 0xf2f4f5 });
-            const lineY = 0.045;
-            const lineOffset = junctionLineOffset;
-            const lineLength = roadWidth - 1.2;
-
-            [-lineOffset, lineOffset].forEach(z => {
-                const line = new THREE.Mesh(
-                    new THREE.PlaneGeometry(lineLength, 0.18),
-                    stopLineMat
-                );
-                line.rotation.x = -Math.PI / 2;
-                line.position.set(0, lineY, z);
-                segmentGroup.add(line);
-            });
-
-            [-lineOffset, lineOffset].forEach(x => {
-                const line = new THREE.Mesh(
-                    new THREE.PlaneGeometry(0.18, lineLength),
-                    stopLineMat
-                );
-                line.rotation.x = -Math.PI / 2;
-                line.position.set(x, lineY, 0);
-                segmentGroup.add(line);
-            });
-        }
-
-
-
-        function addRoadCurbs(segmentGroup, isJunction = false) {
+        // --- PURE HIGH-SPEED HIGHWAY ROAD SYSTEM (JUNCTIONS & TRAFFIC LIGHTS REMOVED) ---
+        function addRoadCurbs(segmentGroup) {
             const curbMat = new THREE.MeshStandardMaterial({ color: 0x77736b, roughness: 0.9, metalness: 0.05 });
             const curbHeight = 0.3;
             const curbDepth = 0.55;
 
-            if (isJunction) {
-                [-1, 1].forEach(side => {
-                    const mainCurb = new THREE.Mesh(
-                        new THREE.BoxGeometry(curbDepth, curbHeight, 40),
-                        curbMat
-                    );
-                    mainCurb.position.set(side * (roadWidth / 2 + curbDepth / 2), curbHeight / 2, -30);
-                    // mainCurb.castShadow = false;
-                    mainCurb.receiveShadow = true;
-                    segmentGroup.add(mainCurb);
-
-                    const farMainCurb = mainCurb.clone();
-                    farMainCurb.position.z = 30;
-                    segmentGroup.add(farMainCurb);
-
-                    [-1, 1].forEach(crossSide => {
-                        const crossCurb = new THREE.Mesh(
-                            new THREE.BoxGeometry(40, curbHeight, curbDepth),
-                            curbMat
-                        );
-                        crossCurb.position.set(side * 30, curbHeight / 2, crossSide * (roadWidth / 2 + curbDepth / 2));
-                        // crossCurb.castShadow = false;
-                        crossCurb.receiveShadow = true;
-                        segmentGroup.add(crossCurb);
-                    });
-                });
-            } else {
-                [-1, 1].forEach(side => {
-                    const curb = new THREE.Mesh(
-                        new THREE.BoxGeometry(curbDepth, curbHeight, segmentLength),
-                        curbMat
-                    );
-                    curb.position.set(side * (roadWidth / 2 + curbDepth / 2), curbHeight / 2, 0);
-                    // curb.castShadow = false;
-                    curb.receiveShadow = true;
-                    segmentGroup.add(curb);
-                });
-            }
+            [-1, 1].forEach(side => {
+                const curb = new THREE.Mesh(
+                    new THREE.BoxGeometry(curbDepth, curbHeight, segmentLength),
+                    curbMat
+                );
+                curb.position.set(side * (roadWidth / 2 + curbDepth / 2), curbHeight / 2, 0);
+                curb.receiveShadow = true;
+                segmentGroup.add(curb);
+            });
         }
 
 
@@ -6906,27 +6780,11 @@
 
 
 
-        function getSafeSceneryZ(candidateZ, clearance = 32) {
-            let safeZ = candidateZ;
-            while (junctions.some(junction => Math.abs(safeZ - junction.position.z) < clearance)) {
-                safeZ -= clearance;
-            }
-            return safeZ;
-        }
-
-        function isJunctionRoadSlotBlocked(x, z, xRadius, zRadius) {
-            return junctions.some(junction => {
-                const junctionZ = junction.position.z;
-                const onMainRoad = Math.abs(x) < roadWidth / 2 + xRadius
-                    && Math.abs(z - junctionZ) < segmentLength / 2 + zRadius;
-                const onCrossRoad = Math.abs(x) < 50 + xRadius
-                    && Math.abs(z - junctionZ) < roadWidth / 2 + zRadius;
-                return onMainRoad || onCrossRoad;
-            });
+        function getSafeSceneryZ(candidateZ) {
+            return candidateZ;
         }
 
         function isScenerySlotBlocked(x, z, xRadius, zRadius, ignoredObject = null) {
-            if (isJunctionRoadSlotBlocked(x, z, xRadius, zRadius)) return true;
 
             const sceneryGroups = [sideBuildings, roadBridges];
             for (let g = 0; g < sceneryGroups.length; g++) {
@@ -6969,9 +6827,6 @@
             }
 
             for (let z = -430; z <= 70; z += 24) {
-                const nearJunction = junctions.some(junction => Math.abs(z - junction.position.z) < 30);
-                if (nearJunction) continue;
-
                 createRoadTree(-10.8, getSafeSceneryZ(z + Math.random() * 8 - 4, 34));
                 createRoadTree(10.8, getSafeSceneryZ(z + Math.random() * 8 - 4, 34));
                 if (Math.random() < 0.75) {
@@ -7295,8 +7150,8 @@
             roadTrees.push(treeGroup);
         }
 
-        function createPedestrian(xPos, zPos, direction, allowJunction = false) {
-            const safeZ = allowJunction ? zPos : getSafeSceneryPlacement(xPos, zPos, 0.5, 0.5);
+        function createPedestrian(xPos, zPos, direction) {
+            const safeZ = getSafeSceneryPlacement(xPos, zPos, 0.5, 0.5);
             const person = new THREE.Group();
             const outfitColors = [0x00a8cc, 0xe07a35, 0x8e5bd9, 0x2e9d62];
             const outfitColor = outfitColors[Math.floor(Math.random() * outfitColors.length)];
@@ -8277,33 +8132,7 @@
         }
 
 
-        function updateJunctionPedestrians(delta) {
 
-            for (let index = junctionPedestrians.length - 1; index >= 0; index--) {
-                const person = junctionPedestrians[index];
-                const playerDistance = playerCar.position.z - person.position.z;
-                const playerApproachingCrossing = currentSpeed > 0.05
-                    && playerDistance > -2
-                    && playerDistance < 8
-                    && Math.abs(playerCar.position.x - person.position.x) < 2.4;
-                if (playerApproachingCrossing) continue;
-
-                person.position.x += person.userData.walkDirection * delta * 4.2;
-                const step = Math.sin(person.userData.walkPhase) * 0.45;
-                person.userData.walkPhase += delta * 7;
-                person.userData.leftLeg.rotation.x = step;
-                person.userData.rightLeg.rotation.x = -step;
-                person.userData.leftArm.rotation.x = -step * 0.7;
-                person.userData.rightArm.rotation.x = step * 0.7;
-
-                if (Math.abs(person.position.x) > 9.5) {
-                    scene.remove(person);
-                    junctionPedestrians.splice(index, 1);
-                    const pedestrianIndex = pedestrians.indexOf(person);
-                    if (pedestrianIndex !== -1) pedestrians.splice(pedestrianIndex, 1);
-                }
-            }
-        }
 
         function keepTrafficSeparated() {
             const minimumGap = minimumVehicleCenterDistance;
@@ -8350,23 +8179,6 @@
                             rearmost.position.z -= 20;
                         }
                         break; // Only fix one cluster per frame to avoid jitter
-                    }
-                }
-            }
-
-            for (let firstIndex = 0; firstIndex < crossTrafficCars.length; firstIndex++) {
-                const firstCar = crossTrafficCars[firstIndex];
-                for (let secondIndex = firstIndex + 1; secondIndex < crossTrafficCars.length; secondIndex++) {
-                    const secondCar = crossTrafficCars[secondIndex];
-                    if (Math.abs(firstCar.position.z - secondCar.position.z) > 2.2) continue;
-
-                    const distance = Math.abs(firstCar.position.x - secondCar.position.x);
-                    if (distance >= minimumGap) continue;
-
-                    if (firstCar.position.x > secondCar.position.x) {
-                        secondCar.position.x = firstCar.position.x - minimumGap;
-                    } else {
-                        firstCar.position.x = secondCar.position.x - minimumGap;
                     }
                 }
             }
@@ -8455,12 +8267,6 @@
                     if (car && scene) scene.remove(car);
                 });
                 trafficCars = [];
-            }
-            if (Array.isArray(crossTrafficCars)) {
-                crossTrafficCars.forEach(car => {
-                    if (car && scene) scene.remove(car);
-                });
-                crossTrafficCars = [];
             }
             if (Array.isArray(roadSegments) && roadSegments.length > 0) {
                 roadSegments.forEach((seg, idx) => {
@@ -8903,14 +8709,6 @@
                 return;
             }
 
-            const isNearJunction = junctions.some(junction =>
-                Math.abs(playerCar.position.z - junction.position.z) <= 20
-            );
-            if (isNearJunction) {
-                hornTrafficFreezeTimer = 0.65;
-                return;
-            }
-
             const playerX = playerCar.position.x;
             const playerZ = playerCar.position.z;
 
@@ -9015,11 +8813,6 @@
 
             trafficCars.forEach(car => scene.remove(car));
             trafficCars = [];
-            crossTrafficCars.forEach(car => scene.remove(car));
-            crossTrafficCars = [];
-            junctionPedestrians.forEach(person => scene.remove(person));
-            junctionPedestrians = [];
-            pedestrians = pedestrians.filter(person => !person.userData.isJunctionCrossing);
 
             smokeParticles.forEach(sp => scene.remove(sp.mesh));
             smokeParticles = [];
@@ -9110,11 +8903,6 @@
             clearPressedKeys();
             trafficCars.forEach(car => scene.remove(car));
             trafficCars = [];
-            crossTrafficCars.forEach(car => scene.remove(car));
-            crossTrafficCars = [];
-            junctionPedestrians.forEach(person => scene.remove(person));
-            junctionPedestrians = [];
-            pedestrians = pedestrians.filter(person => !person.userData.isJunctionCrossing);
             stopEngineSound();
             stopRainSound();
             startLobbyMusic();
@@ -9444,7 +9232,6 @@
 
 
             spawnTraffic();
-            updateJunctionPedestrians(delta);
             const trafficFrozenForSafety = trafficFrozenByHorn;
             const pX = playerCar.position.x;
             const pZ = playerCar.position.z;
@@ -9513,46 +9300,6 @@
                 if (isBehindBoth || isWayTooFarAhead) {
                     scene.remove(car);
                     trafficCars.splice(i, 1);
-                }
-            }
-
-            for (let i = crossTrafficCars.length - 1; i >= 0; i--) {
-                const crossCar = crossTrafficCars[i];
-                const junctionEntryX = -junctionLineOffset + vehicleLength / 2;
-                const junctionExitX = 12;
-                const hasEnteredJunction = crossCar.position.x >= junctionEntryX;
-                crossCar.userData.hasEnteredJunction = crossCar.userData.hasEnteredJunction || hasEnteredJunction;
-
-                if (!crossCar.userData.hasEnteredJunction) {
-                    crossCar.userData.crossing = true;
-                }
-
-                if (!trafficFrozenForSafety && (crossCar.userData.hasEnteredJunction || crossCar.userData.crossing)) {
-                    crossCar.position.x += delta * 38;
-                }
-                crossCar.position.x = THREE.MathUtils.clamp(
-                    crossCar.position.x,
-                    -crossRoadVehicleLimit,
-                    crossRoadVehicleLimit
-                );
-                if (!trafficFrozenForSafety) crossCar.position.z += moveDist;
-
-                if (crossCar.userData.hasEnteredJunction && crossCar.position.x > junctionExitX) {
-                    crossCar.userData.crossing = false;
-                }
-
-                const crossHalfW = crossCar.userData.halfWidth || 1.1;
-                const crossHalfL = crossCar.userData.halfLength || 2.2;
-                reusableBox.min.set(crossCar.position.x - crossHalfL, 0.1, crossCar.position.z - crossHalfW);
-                reusableBox.max.set(crossCar.position.x + crossHalfL, 1.6, crossCar.position.z + crossHalfW);
-                if (playerBox.intersectsBox(reusableBox)) {
-                    triggerPlayerCrash();
-                    return;
-                }
-
-                if (crossCar.position.x >= crossRoadVehicleLimit) {
-                    scene.remove(crossCar);
-                    crossTrafficCars.splice(i, 1);
                 }
             }
 
@@ -9716,7 +9463,7 @@
                     camera.position.x = Math.sin(showroomAngle) * showroomDistance;
                     camera.position.z = Math.cos(showroomAngle) * showroomDistance;
                     camera.position.y = showroomElevation;
-                    camera.lookAt(0, 0.65, 0);
+                    camera.lookAt(0, 0.75, 0);
                 }
 
                 if (showroomRingMesh) {
