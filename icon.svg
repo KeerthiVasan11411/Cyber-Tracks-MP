@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#08081a"/>
+      <stop offset="50%" stop-color="#0a1128"/>
+      <stop offset="100%" stop-color="#120626"/>
+    </linearGradient>
+
+    <!-- Cyber Neon Cyan Gradient -->
+    <linearGradient id="cyanNeon" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="100%" stop-color="#0077ff"/>
+    </linearGradient>
+
+    <!-- Magenta Pink Glow Gradient -->
+    <linearGradient id="pinkNeon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff0077"/>
+      <stop offset="100%" stop-color="#ff0055"/>
+    </linearGradient>
+
+    <!-- Windshield Reflection -->
+    <linearGradient id="glassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.9"/>
+      <stop offset="50%" stop-color="#7928ca" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#ff0077" stop-opacity="0.8"/>
+    </linearGradient>
+
+    <!-- Glow Filters -->
+    <filter id="glowCyan" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <filter id="glowMagenta" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="16" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    
+    <!-- Cyber Grid Pattern -->
+    <pattern id="cyberGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#00f0ff" stroke-width="0.8" opacity="0.12"/>
+    </pattern>
+  </defs>
+
+  <!-- App Icon Background Squircle -->
+  <rect width="512" height="512" rx="115" fill="url(#bgGrad)"/>
+  
+  <!-- Cyber Grid Layer -->
+  <rect width="512" height="512" rx="115" fill="url(#cyberGrid)"/>
+
+  <!-- Outer Neon Halo Ring -->
+  <rect x="16" y="16" width="480" height="480" rx="100" fill="none" stroke="url(#cyanNeon)" stroke-width="6" opacity="0.7" filter="url(#glowCyan)"/>
+  <rect x="24" y="24" width="464" height="464" rx="92" fill="none" stroke="url(#pinkNeon)" stroke-width="3" opacity="0.5"/>
+
+  <!-- Perspective Highway Lines -->
+  <g opacity="0.85">
+    <!-- Outer Road Borders -->
+    <path d="M 60 440 L 210 240 L 302 240 L 452 440" fill="none" stroke="#00f0ff" stroke-width="5" stroke-linecap="round" opacity="0.5" filter="url(#glowCyan)"/>
+    <!-- Speed Lines -->
+    <path d="M 120 440 L 225 240" stroke="#ff0077" stroke-width="3" opacity="0.6"/>
+    <path d="M 392 440 L 287 240" stroke="#ff0077" stroke-width="3" opacity="0.6"/>
+    <!-- Center Dashed Line -->
+    <line x1="256" y1="240" x2="256" y2="440" stroke="#00f0ff" stroke-width="6" stroke-dasharray="24 16" filter="url(#glowCyan)"/>
+  </g>
+
+  <!-- 3D Futuristic Supercar Silhouette (Front Angled Perspective) -->
+  <g transform="translate(0, 10)">
+    <!-- Car Shadow / Road Glow -->
+    <ellipse cx="256" cy="365" rx="170" ry="35" fill="#00f0ff" opacity="0.35" filter="url(#glowCyan)"/>
+    <ellipse cx="256" cy="360" rx="130" ry="25" fill="#ff0077" opacity="0.3" filter="url(#glowMagenta)"/>
+
+    <!-- Main Chassis Body -->
+    <path d="M 120 340 C 110 320 125 285 155 270 C 185 255 210 245 256 245 C 302 245 327 255 357 270 C 387 285 402 320 392 340 C 382 360 360 365 256 365 C 152 365 130 360 120 340 Z" fill="#091326" stroke="url(#cyanNeon)" stroke-width="5"/>
+
+    <!-- Front Spoiler & Aerodynamic Bumper -->
+    <path d="M 135 345 L 256 360 L 377 345 L 360 368 L 256 375 L 152 368 Z" fill="#030814" stroke="#ff0077" stroke-width="4" filter="url(#glowMagenta)"/>
+
+    <!-- Cockpit Canopy & Windshield -->
+    <path d="M 175 270 C 190 220 220 205 256 205 C 292 205 322 220 337 270 Z" fill="url(#glassGrad)" stroke="#00f0ff" stroke-width="4" filter="url(#glowCyan)"/>
+    <!-- Windshield Inner Accent Lines -->
+    <path d="M 215 235 Q 256 220 297 235" fill="none" stroke="#ffffff" stroke-width="3" opacity="0.7"/>
+
+    <!-- Dual Laser Headlights (Left & Right) -->
+    <!-- Left Headlight -->
+    <polygon points="140,320 190,315 200,328 145,335" fill="#00f0ff" filter="url(#glowCyan)"/>
+    <polygon points="140,320 190,315 200,328 145,335" fill="#ffffff" opacity="0.9"/>
+    
+    <!-- Right Headlight -->
+    <polygon points="372,320 322,315 312,328 367,335" fill="#00f0ff" filter="url(#glowCyan)"/>
+    <polygon points="372,320 322,315 312,328 367,335" fill="#ffffff" opacity="0.9"/>
+
+    <!-- Front Grille Neon Intake Bar -->
+    <rect x="216" y="330" width="80" height="12" rx="4" fill="#ff0077" filter="url(#glowMagenta)"/>
+    <rect x="226" y="333" width="60" height="6" rx="2" fill="#ffffff"/>
+
+    <!-- Side Mirrors -->
+    <path d="M 145 275 L 120 265 L 140 285 Z" fill="#00f0ff"/>
+    <path d="M 367 275 L 392 265 L 372 285 Z" fill="#00f0ff"/>
+  </g>
+
+  <!-- Game Title Badge -->
+  <g transform="translate(0, -10)">
+    <text x="256" y="115" font-family="'Impact', 'Segoe UI', sans-serif" font-weight="900" font-size="44" font-style="italic" fill="#ffffff" text-anchor="middle" letter-spacing="3" filter="drop-shadow(0 0 10px #00f0ff)">CYBER RACER</text>
+    <text x="256" y="145" font-family="'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="18" fill="#ff0077" text-anchor="middle" letter-spacing="6" filter="drop-shadow(0 0 8px #ff0077)">3D HIGHWAY</text>
+  </g>
+</svg>
